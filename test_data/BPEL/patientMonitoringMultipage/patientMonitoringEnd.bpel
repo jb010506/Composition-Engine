@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<process targetNamespace="User://patientMonitoringEnd" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:tns="User://patientMonitoringEnd"
+         xmlns:PatientMonitor_FactorMonitor_initMethod="http://140.112.90.144:7122/PatientMonitorGradle/PatientMonitor/FactorMonitor/initMethod-long"
+         xmlns:PatientMonitor_FactorMonitor_monitor="http://140.112.90.144:7122/PatientMonitorGradle/PatientMonitor/FactorMonitor/monitor" xmlns:PatientMonitor_FactorMonitor_printDB="http://140.112.90.144:7122/PatientMonitorGradle/PatientMonitor/FactorMonitor/printDB">
+    <variables>
+        <variable messageType="PatientMonitor_FactorMonitor_initMethod:initMethodResponse" name="factor_monitor"/>
+        <variable messageType="PatientMonitor_FactorMonitor_monitor:monitorRequest" name="monitor_request"/>
+        <variable messageType="PatientMonitor_FactorMonitor_monitor:monitorResponse" name="monitor_response"/>
+        <variable messageType="PatientMonitor_FactorMonitor_printDB:printDBRequest" name="printDB_request"/>
+        <variable messageType="PatientMonitor_FactorMonitor_printDB:printDBResponse" name="printDB_response"/>
+        <variable messageType="tns:reply" name="reply"/>
+    </variables>
+    <sequence>
+        <receive createInstance="yes" name="receive-input" operation="start" portType="tns:interactionPort" partnerLink="end" variable="factor_monitor"/>
+        <assign validate="yes">
+            <copy>
+                <from variable="factor_monitor" part="serviceResult"/>
+                <to variable="monitor_request" part="self"/>
+            </copy>
+            <copy>
+                <from variable="factor_monitor" part="serviceResult"/>
+                <to variable="printDB_request" part="self"/>
+            </copy>
+        </assign>
+        <invoke partnerLink="FactorMonitor" portType="PatientMonitor_FactorMonitor_monitor:monitorPort" operation="monitor" inputVariable="monitor_request" outputVariable="monitor_response"/>
+        <assign validate="yes">
+            <copy>
+                <from variable="monitor_response" part="standardOutput"/>
+                <to variable="reply" part="monitorOutput"/>
+            </copy>
+        </assign>
+        <invoke partnerLink="FactorMonitor" portType="PatientMonitor_FactorMonitor_printDB:printDBPort" operation="printDB" inputVariable="printDB_request" outputVariable="printDB_response"/>
+        <assign validate="yes">
+            <copy>
+                <from variable="printDB_response" part="standardOutput"/>
+                <to variable="reply" part="dbOutput"/>
+            </copy>
+        </assign>
+        <reply operation="start" portType="tns:interactionPort" partnerLink="end" variable="reply"/>
+    </sequence>
+</process>

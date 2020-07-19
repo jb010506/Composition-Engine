@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:ArrayList.add="http://140.112.90.144:7122/java/util/ArrayList/add-java_util_ArrayList-java_lang_Object"
+	xmlns:ArrayList.initMethod="http://140.112.90.144:7122/java/util/ArrayList/initMethod"
+	xmlns:ArrayList.size="http://140.112.90.144:7122/java/util/ArrayList/size-java_util_ArrayList"
+	xmlns:Assignment.initMethod="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Assignment/initMethod-java_lang_String-peer_review_system_Student"
+	xmlns:Assignment.review="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Assignment/review"
+	xmlns:Instructor.addAssignment="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/addAssignment-peer_review_system_Assignment"
+	xmlns:Instructor.averageCriterion="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/averageCriterion-java_lang_String"
+	xmlns:Instructor.calculateScore="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/calculateScore-java_lang_String-java_lang_String-java_lang_String"
+	xmlns:Instructor.designRankingCriterion="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/designRankingCriterion-java_lang_String-java_lang_String"
+	xmlns:Instructor.findStrength="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/findStrength-java_lang_String-java_lang_String-java_lang_String"
+	xmlns:Instructor.findWeakness="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/findWeakness-java_lang_String-java_lang_String-java_lang_String"
+	xmlns:Instructor.getRubric="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/getRubric-java_lang_String"
+	xmlns:Instructor.initMethod="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/initMethod-peer_review_system_School"
+	xmlns:Instructor.setReviewers="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/setReviewers-peer_review_system_Assignment-java_util_List-java_util_List"
+	xmlns:Level.initMethod="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Level/initMethod-java_lang_String-double"
+	xmlns:LevelStrategy.initMethod="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/LevelStrategy/initMethod-java_util_List"
+	xmlns:LinkedHashMap.get="http://140.112.90.144:7122/java/util/LinkedHashMap/get-java_util_LinkedHashMap-java_lang_String"
+	xmlns:LinkedHashMap.initMethod="http://140.112.90.144:7122/java/util/LinkedHashMap/initMethod"
+	xmlns:LinkedHashMap.put="http://140.112.90.144:7122/java/util/LinkedHashMap/put-java_util_LinkedHashMap-java_lang_Object-java_lang_Object"
+	xmlns:Rubric.toString="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Rubric/toString"
+	xmlns:School.initMethod="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/School/initMethod"
+	xmlns:School.setLevelStrategy="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/School/setLevelStrategy-peer_review_system_LevelStrategy"
+	xmlns:Student.initMethod="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Student/initMethod-java_lang_String"
+	xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/"
+	xmlns:tns="./testdata/peerReview.bpel"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:wsdlbpel="http://schemas.xmlsoap.org/wsdl/bpel/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="./testdata/peerReview.bpel">
+	<message name="start">
+		<part name="start" type="xsd:boolean"/>
+	</message>
+	<portType name="startInteractionPort">
+		<operation name="start">
+			<input message="tns:start" name="in"/>
+		</operation>
+	</portType>
+	<message name="break">
+		<part name="break" type="xsd:boolean"/>
+	</message>
+	<message name="findWeaknessRequest">
+		<part name="assignmentID" type="xsd:string"/>
+		<part name="studentID" type="xsd:string"/>
+		<part name="rankingStrategy" type="xsd:string"/>
+	</message>
+	<message name="findStrengthRequest">
+		<part name="assignmentID" type="xsd:string"/>
+		<part name="studentID" type="xsd:string"/>
+		<part name="rankingStrategy" type="xsd:string"/>
+	</message>
+	<message name="schoolStrategyRequest">
+		<part name="level1" type="xsd:string"/>
+		<part name="score1" type="xsd:string"/>
+		<part name="level2" type="xsd:string"/>
+		<part name="score2" type="xsd:string"/>
+		<part name="level3" type="xsd:string"/>
+		<part name="score3" type="xsd:string"/>
+	</message>
+	<message name="studentRequest">
+		<part name="studentID" type="xsd:string"/>
+	</message>
+	<message name="averageCriterionRequest">
+		<part name="assignmentID" type="xsd:string"/>
+	</message>
+	<message name="assignmentRequest">
+		<part name="assignmentID" type="xsd:string"/>
+		<part name="studentID" type="xsd:string"/>
+		<part name="reviewer1" type="xsd:string"/>
+		<part name="sample1" type="xsd:string"/>
+		<part name="reviewer2" type="xsd:string"/>
+		<part name="sample2" type="xsd:string"/>
+		<part name="reviewer3" type="xsd:string"/>
+		<part name="sample3" type="xsd:string"/>
+	</message>
+	<message name="assignmentResponse">
+		<part name="reply" type="xsd:string"/>
+	</message>
+	<message name="designCriterionRequest">
+		<part name="assignmentID" type="xsd:string"/>
+		<part name="rubricFile" type="xsd:string"/>
+	</message>
+	<message name="calculateScoreRequest">
+		<part name="assignmentID" type="xsd:string"/>
+		<part name="studentID" type="xsd:string"/>
+		<part name="rankingStrategy" type="xsd:string"/>
+	</message>
+	<message name="printRubricRequest">
+		<part name="assignmentID" type="xsd:string"/>
+	</message>
+	<portType name="pageInteractionPort">
+		<operation name="findWeakness">
+			<input message="tns:findWeaknessRequest" name="in"/>
+		</operation>
+		<operation name="findStrength">
+			<input message="tns:findStrengthRequest" name="in"/>
+		</operation>
+		<operation name="schoolStrategy">
+			<input message="tns:schoolStrategyRequest" name="in"/>
+		</operation>
+		<operation name="student">
+			<input message="tns:studentRequest" name="in"/>
+		</operation>
+		<operation name="averageCriterion">
+			<input message="tns:averageCriterionRequest" name="in"/>
+		</operation>
+		<operation name="assignment">
+			<input message="tns:assignmentRequest" name="in"/>
+			<output message="tns:assignmentResponse" name="out"/>
+		</operation>
+		<operation name="designCriterion">
+			<input message="tns:designCriterionRequest" name="in"/>
+		</operation>
+		<operation name="calculateScore">
+			<input message="tns:calculateScoreRequest" name="in"/>
+		</operation>
+		<operation name="printRubric">
+			<input message="tns:printRubricRequest" name="in"/>
+		</operation>
+	</portType>
+	<message name="outputPort.output">
+		<part name="output" type="xsd:string"/>
+	</message>
+	<portType name="outputPort">
+		<operation name="output">
+			<output message="tns:outputPort.output" name="out"/>
+		</operation>
+	</portType>
+	<service name="./testdata/peerReview.bpel">
+		<wsdlbpel:address bpel="./test_data/BPEL/auto_gen_peerReview.bpel" wsdl="./test_data/WSDL/auto_gen_peerReview.wsdl"/>
+	</service>
+	<import location="http://140.112.90.144/wsdl/PeerReviewSystemGradle/peer_review_system/Assignment/initMethod-java_lang_String-peer_review_system_Student.wsdl" namespace="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Assignment/initMethod-java_lang_String-peer_review_system_Student"/>
+	<import location="http://140.112.90.144/wsdl/PeerReviewSystemGradle/peer_review_system/Assignment/review.wsdl" namespace="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Assignment/review"/>
+	<import location="http://140.112.90.144/wsdl/PeerReviewSystemGradle/peer_review_system/Rubric/toString.wsdl" namespace="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Rubric/toString"/>
+	<import location="http://140.112.90.144/wsdl/PeerReviewSystemGradle/peer_review_system/School/initMethod.wsdl" namespace="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/School/initMethod"/>
+	<import location="http://140.112.90.144/wsdl/PeerReviewSystemGradle/peer_review_system/School/setLevelStrategy-peer_review_system_LevelStrategy.wsdl" namespace="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/School/setLevelStrategy-peer_review_system_LevelStrategy"/>
+	<import location="http://140.112.90.144/wsdl/PeerReviewSystemGradle/peer_review_system/Instructor/designRankingCriterion-java_lang_String-java_lang_String.wsdl" namespace="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/designRankingCriterion-java_lang_String-java_lang_String"/>
+	<import location="http://140.112.90.144/wsdl/PeerReviewSystemGradle/peer_review_system/Instructor/findWeakness-java_lang_String-java_lang_String-java_lang_String.wsdl" namespace="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/findWeakness-java_lang_String-java_lang_String-java_lang_String"/>
+	<import location="http://140.112.90.144/wsdl/PeerReviewSystemGradle/peer_review_system/Instructor/initMethod-peer_review_system_School.wsdl" namespace="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/initMethod-peer_review_system_School"/>
+	<import location="http://140.112.90.144/wsdl/PeerReviewSystemGradle/peer_review_system/Instructor/addAssignment-peer_review_system_Assignment.wsdl" namespace="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/addAssignment-peer_review_system_Assignment"/>
+	<import location="http://140.112.90.144/wsdl/PeerReviewSystemGradle/peer_review_system/Instructor/findStrength-java_lang_String-java_lang_String-java_lang_String.wsdl" namespace="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/findStrength-java_lang_String-java_lang_String-java_lang_String"/>
+	<import location="http://140.112.90.144/wsdl/PeerReviewSystemGradle/peer_review_system/Instructor/averageCriterion-java_lang_String.wsdl" namespace="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/averageCriterion-java_lang_String"/>
+	<import location="http://140.112.90.144/wsdl/PeerReviewSystemGradle/peer_review_system/Instructor/calculateScore-java_lang_String-java_lang_String-java_lang_String.wsdl" namespace="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/calculateScore-java_lang_String-java_lang_String-java_lang_String"/>
+	<import location="http://140.112.90.144/wsdl/PeerReviewSystemGradle/peer_review_system/Instructor/setReviewers-peer_review_system_Assignment-java_util_List-java_util_List.wsdl" namespace="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/setReviewers-peer_review_system_Assignment-java_util_List-java_util_List"/>
+	<import location="http://140.112.90.144/wsdl/PeerReviewSystemGradle/peer_review_system/Instructor/getRubric-java_lang_String.wsdl" namespace="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/getRubric-java_lang_String"/>
+	<import location="http://140.112.90.144/wsdl/java/util/ArrayList/add-java_util_ArrayList-java_lang_Object.wsdl" namespace="http://140.112.90.144:7122/java/util/ArrayList/add-java_util_ArrayList-java_lang_Object"/>
+	<import location="http://140.112.90.144/wsdl/java/util/ArrayList/initMethod.wsdl" namespace="http://140.112.90.144:7122/java/util/ArrayList/initMethod"/>
+	<import location="http://140.112.90.144/wsdl/java/util/ArrayList/size-java_util_ArrayList.wsdl" namespace="http://140.112.90.144:7122/java/util/ArrayList/size-java_util_ArrayList"/>
+	<import location="http://140.112.90.144/wsdl/PeerReviewSystemGradle/peer_review_system/Level/initMethod-java_lang_String-double.wsdl" namespace="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Level/initMethod-java_lang_String-double"/>
+	<import location="http://140.112.90.144/wsdl/PeerReviewSystemGradle/peer_review_system/Student/initMethod-java_lang_String.wsdl" namespace="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Student/initMethod-java_lang_String"/>
+	<import location="http://140.112.90.144/wsdl/PeerReviewSystemGradle/peer_review_system/LevelStrategy/initMethod-java_util_List.wsdl" namespace="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/LevelStrategy/initMethod-java_util_List"/>
+	<import location="http://140.112.90.144/wsdl/java/util/LinkedHashMap/initMethod.wsdl" namespace="http://140.112.90.144:7122/java/util/LinkedHashMap/initMethod"/>
+	<import location="http://140.112.90.144/wsdl/java/util/LinkedHashMap/get-java_util_LinkedHashMap-java_lang_String.wsdl" namespace="http://140.112.90.144:7122/java/util/LinkedHashMap/get-java_util_LinkedHashMap-java_lang_String"/>
+	<import location="http://140.112.90.144/wsdl/java/util/LinkedHashMap/put-java_util_LinkedHashMap-java_lang_Object-java_lang_Object.wsdl" namespace="http://140.112.90.144:7122/java/util/LinkedHashMap/put-java_util_LinkedHashMap-java_lang_Object-java_lang_Object"/>
+</definitions>

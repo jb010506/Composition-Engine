@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions targetNamespace="User://patientMonitoringSetTime" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:plink="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:tns="User://patientMonitoringSetTime" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlbpel="http://schemas.xmlsoap.org/wsdl/bpel/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:PatientMonitor_FactorMonitor="http://140.112.90.144:7122/PatientMonitorGradle/PatientMonitor/FactorMonitor/initMethod-long">
+    <portType name="interactionPort">
+        <operation name="start">
+            <output message="PatientMonitor_FactorMonitor:initMethodResponse" name="out"/>
+        </operation>
+        <operation name="set_period">
+            <input message="PatientMonitor_FactorMonitor:initMethodRequest" name="in"/>
+            <output message="PatientMonitor_FactorMonitor:initMethodResponse" name="out"/>
+        </operation>
+    </portType>
+    <service name="patientMonitoringSetTime">
+        <wsdlbpel:address bpel="test_data/BPEL/patientMonitoringMultipage/patientMonitoringSetTime.bpel" wsdl="test_data/WSDL/patientMonitoringMultipage/patientMonitoringSetTime.wsdl"/>
+    </service>
+    <import location="http://140.112.90.144/wsdl/PatientMonitorGradle/PatientMonitor/FactorMonitor/initMethod-long.wsdl" namespace="http://140.112.90.144:7122/PatientMonitorGradle/PatientMonitor/FactorMonitor/initMethod-long"/>
+</definitions>

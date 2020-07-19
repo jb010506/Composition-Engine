@@ -1,0 +1,129 @@
+{"bpelPath": "testdata/BPEL/auto_gen_peerReview.bpel", "wsdlPath":"testdata/WSDL/auto_gen_peerReview.wsdl"}
+
+{
+	"pid": 0,
+	"partnerLink":"Main",
+	"operation":"start",
+	"portType":{"namespace":"./testdata/peerReview.bpel","local_name":"startInteractionPort"},
+	"content":"<var><start>true</start></var>"
+}
+
+{
+	"pid": 0,
+	"partnerLink":"Main",
+	"operation":"student",
+	"portType":{"namespace":"./testdata/peerReview.bpel","local_name":"pageInteractionPort"},
+	"content":"<var><studentID>001</studentID></var>"
+}
+
+{
+	"pid": 0,
+	"partnerLink":"Main",
+	"operation":"student",
+	"portType":{"namespace":"./testdata/peerReview.bpel","local_name":"pageInteractionPort"},
+	"content":"<var><studentID>004</studentID></var>"
+}
+
+{
+	"pid": 0,
+	"partnerLink":"Main",
+	"operation":"student",
+	"portType":{"namespace":"./testdata/peerReview.bpel","local_name":"pageInteractionPort"},
+	"content":"<var><studentID>002</studentID></var>"
+}
+
+{
+	"pid": 0,
+	"partnerLink":"Main",
+	"operation":"student",
+	"portType":{"namespace":"./testdata/peerReview.bpel","local_name":"pageInteractionPort"},
+	"content":"<var><studentID>003</studentID></var>"
+}
+
+{
+	"pid": 0,
+	"partnerLink":"Main",
+	"operation":"schoolStrategy",
+	"portType":{"namespace":"./testdata/peerReview.bpel","local_name":"pageInteractionPort"},
+	"content":"<var><level1>Excellent</level1><score1>3</score1><level2>Competent</level2><score2>2</score2><level3>NeedsWork</level3><score3>1</score3></var>"
+}
+
+{
+	"pid": 0,
+	"partnerLink":"Main",
+	"operation":"designCriterion",
+	"portType":{"namespace":"./testdata/peerReview.bpel","local_name":"pageInteractionPort"},
+	"content":"<var><assignmentID>A1</assignmentID><rubricFile>/home/selab/temp/TestCase_peer/criteria1_1.txt</rubricFile></var>"
+}
+
+{
+	"pid": 0,
+	"partnerLink":"Main",
+	"operation":"assignment",
+	"portType":{"namespace":"./testdata/peerReview.bpel","local_name":"pageInteractionPort"},
+	"content":"<var><assignmentID>A1</assignmentID><studentID>001</studentID><reviewer1>002</reviewer1><sample1>/home/selab/temp/TestCase_peer/score1_1.txt</sample1><reviewer2>003</reviewer2><sample2>/home/selab/temp/TestCase_peer/score1_1.txt</sample2><reviewer3>004</reviewer3><sample3>/home/selab/temp/TestCase_peer/score1_2.txt</sample3></var>"
+}
+
+{
+	"pid": 0,
+	"partnerLink":"Main",
+	"operation":"assignment",
+	"portType":{"namespace":"./testdata/peerReview.bpel","local_name":"pageInteractionPort"},
+	"content":"<var><assignmentID>A1</assignmentID><studentID>002</studentID><reviewer1>001</reviewer1><sample1>/home/selab/temp/TestCase_peer/score1_1.txt</sample1><reviewer2>003</reviewer2><sample2>/home/selab/temp/TestCase_peer/score1_1.txt</sample2><reviewer3>004</reviewer3><sample3>/home/selab/temp/TestCase_peer/score1_2.txt</sample3></var>"
+}
+
+{
+	"pid": 0,
+	"partnerLink":"Main",
+	"operation":"assignment",
+	"portType":{"namespace":"./testdata/peerReview.bpel","local_name":"pageInteractionPort"},
+	"content":"<var><assignmentID>A1</assignmentID><studentID>003</studentID><reviewer1>002</reviewer1><sample1>/home/selab/temp/TestCase_peer/score1_1.txt</sample1><reviewer2>001</reviewer2><sample2>/home/selab/temp/TestCase_peer/score1_1.txt</sample2><reviewer3>004</reviewer3><sample3>/home/selab/temp/TestCase_peer/score1_2.txt</sample3></var>"
+}
+
+{
+	"pid": 0,
+	"partnerLink":"Main",
+	"operation":"assignment",
+	"portType":{"namespace":"./testdata/peerReview.bpel","local_name":"pageInteractionPort"},
+	"content":"<var><assignmentID>A1</assignmentID><studentID>004</studentID><reviewer1>002</reviewer1><sample1>/home/selab/temp/TestCase_peer/score1_1.txt</sample1><reviewer2>003</reviewer2><sample2>/home/selab/temp/TestCase_peer/score1_1.txt</sample2><reviewer3>001</reviewer3><sample3>/home/selab/temp/TestCase_peer/score1_2.txt</sample3></var>"
+}
+
+{
+	"pid": 0,
+	"partnerLink":"Main",
+	"operation":"printRubric",
+	"portType":{"namespace":"./testdata/peerReview.bpel","local_name":"pageInteractionPort"},
+	"content":"<var><assignmentID>A1</assignmentID></var>"
+}
+
+{
+	"pid": 0,
+	"partnerLink":"Main",
+	"operation":"averageCriterion",
+	"portType":{"namespace":"./testdata/peerReview.bpel","local_name":"pageInteractionPort"},
+	"content":"<var><assignmentID>A1</assignmentID></var>"
+}
+
+{
+	"pid": 0,
+	"partnerLink":"Main",
+	"operation":"calculateScore",
+	"portType":{"namespace":"./testdata/peerReview.bpel","local_name":"pageInteractionPort"},
+	"content":"<var><assignmentID>A1</assignmentID><studentID>001</studentID><rankingStrategy>MeanRankingStrategy</rankingStrategy></var>"
+}
+
+{
+	"pid": 0,
+	"partnerLink":"Main",
+	"operation":"findStrength",
+	"portType":{"namespace":"./testdata/peerReview.bpel","local_name":"pageInteractionPort"},
+	"content":"<var><assignmentID>A1</assignmentID><studentID>002</studentID><rankingStrategy>MeanRankingStrategy</rankingStrategy></var>"
+}
+
+{
+	"pid": 0,
+	"partnerLink":"Main",
+	"operation":"findWeakness",
+	"portType":{"namespace":"./testdata/peerReview.bpel","local_name":"pageInteractionPort"},
+	"content":"<var><assignmentID>A1</assignmentID><studentID>003</studentID><rankingStrategy>MeanRankingStrategy</rankingStrategy></var>"
+}

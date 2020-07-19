@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions targetNamespace="User://patientMonitoringMain" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:plink="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:tns="User://patientMonitoringMain" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlbpel="http://schemas.xmlsoap.org/wsdl/bpel/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <message name="start">
+        <part type="xsd:boolean" name="start" />
+    </message>
+    <message name="end">
+        <part type="xsd:boolean" name="end" />
+    </message>
+    <message name="reply">
+        <part type="xsd:string" name="output"/>
+    </message>
+    <portType name="navigationPort">
+        <operation name="setTimePage">
+            <input message="tns:start" name="in"/>
+        </operation>
+        <operation name="patientPage">
+            <input message="tns:start" name="in"/>
+        </operation>
+        <operation name="endPage">
+            <input message="tns:start" name="in"/>
+        </operation>
+    </portType>
+
+    <service name="patientMonitoring">
+        <wsdlbpel:address bpel="test_data/BPEL/patientMonitoringMultipage/patientMonitoringMain.bpel" wsdl="test_data/WSDL/patientMonitoringMultipage/patientMonitoringMain.wsdl"/>
+    </service>
+    <import location="file:/Users/poyao/Dropbox/selab/ui_composite_engine/test_data/WSDL/patientMonitoringMultipage/patientMonitoringSetTime.wsdl" namespace="User://patientMonitoringSetTime"/>
+    <import location="file:/Users/poyao/Dropbox/selab/ui_composite_engine/test_data/WSDL/patientMonitoringMultipage/patientMonitoringPatient.wsdl" namespace="User://patientMonitoringPatient"/>
+    <import location="file:/Users/poyao/Dropbox/selab/ui_composite_engine/test_data/WSDL/patientMonitoringMultipage/patientMonitoringEnd.wsdl" namespace="User://patientMonitoringEnd"/>
+    <import location="http://140.112.90.144/wsdl/PatientMonitorGradle/PatientMonitor/FactorMonitor/initMethod-long.wsdl" namespace="http://140.112.90.144:7122/PatientMonitorGradle/PatientMonitor/FactorMonitor/initMethod-long"/>
+</definitions>

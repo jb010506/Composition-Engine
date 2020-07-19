@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<process targetNamespace="User://patientMonitoringSetTime" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:tns="User://patientMonitoringSetTime"
+         xmlns:PatientMonitor_FactorMonitor="http://140.112.90.144:7122/PatientMonitorGradle/PatientMonitor/FactorMonitor/initMethod-long">
+    <variables>
+        <variable messageType="PatientMonitor_FactorMonitor:initMethodRequest" name="factorMonitorRequest"/>
+        <variable messageType="PatientMonitor_FactorMonitor:initMethodResponse" name="factorMonitorResponse"/>
+    </variables>
+    <sequence>
+        <receive createInstance="yes" name="receive-input" operation="set_period" portType="tns:interactionPort" partnerLink="setTime" variable="factorMonitorRequest"/>
+        <invoke partnerLink="FactorMonitor" portType="PatientMonitor_FactorMonitor:initMethodPort" operation="initMethod" inputVariable="factorMonitorRequest" outputVariable="factorMonitorResponse"/>
+        <reply partnerLink="main" operation="setTimeReply" variable="factorMonitorResponse"/>
+    </sequence>
+</process>

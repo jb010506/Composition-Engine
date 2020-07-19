@@ -1,0 +1,42 @@
+{"bpelPath": "testdata/BPEL/auto_gen_patientMonitoringDB.bpel", "wsdlPath":"testdata/WSDL/auto_gen_patientMonitoringDB.wsdl"}
+
+{
+	"pid": 0,
+	"partnerLink":"Main",
+	"operation":"start",
+	"portType":{"namespace":"./testdata/patientMonitoringDB.bpel","local_name":"startInteractionPort"},
+	"content":"<var><start>true</start></var>"
+}
+
+{
+	"pid": 0,
+	"partnerLink":"Main",
+	"operation":"setTime",
+	"portType":{"namespace":"./testdata/patientMonitoringDB.bpel","local_name":"pageInteractionPort"},
+	"content":"<var><readSec>3000</readSec></var>"
+}
+
+{
+	"pid": 0,
+	"partnerLink":"Main",
+	"operation":"patient",
+	"portType":{"namespace":"./testdata/patientMonitoringDB.bpel","local_name":"pageInteractionPort"},
+	"content":"<var><frequency>600</frequency><name>Mark</name></var>"
+}
+
+{
+	"pid": 0,
+	"partnerLink":"Main",
+	"operation":"pulseSensor",
+	"portType":{"namespace":"./testdata/patientMonitoringDB.bpel","local_name":"pageInteractionPort"},
+	"content":"<var><sensorName>sensor0</sensorName><fileName>/home/selab/temp/TestCase/PulseSensor1.dataset</fileName><lowerBound>150</lowerBound><upperBound>200</upperBound></var>"
+}
+
+
+{
+	"pid": 0,
+	"partnerLink":"Main",
+	"operation":"inputEnd",
+	"portType":{"namespace":"./testdata/patientMonitoringDB.bpel","local_name":"pageInteractionPort"},
+	"content":"<var><end>true</end></var>"
+}

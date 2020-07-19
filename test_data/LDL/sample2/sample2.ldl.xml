@@ -1,0 +1,22 @@
+<dependencies>
+	<package_dependency import="package.json"/>
+	<ts_dependency import="ts_dependency.json"/>
+	<module_dependency import="module_dependency.json"/>
+</dependencies>
+<style>
+	<dependency import="node_modules/simple-line-icons/css/simple-line-icons.css" />
+	<theme import="~@coreui/coreui/scss/coreui"/> <!--default style css-->
+	<component name="aside-menu" import="_aside.scss"/> <!--add or override component to theme in this web app-->
+</style>
+<behavior>
+	<portType name="startInteractionPort" provider="default-layout"/>
+	<portType name="pageInteractionPort" provider="default-layout"/>
+	<portType name="outputPort" provider="aside-menu"/>
+	<portType name="navigationPort" provider="default-layout"/>
+</behavior>
+<src>
+	<uri import="./layout"/>
+	<assets import="./assets"/>
+	<component name="DefaultLayout" type="declaration" routing="" import="./default-layout/default-layout.component"/>
+	<component name="P404" type="declaration" routing="**" import="./p404/404.component"/>
+</src>

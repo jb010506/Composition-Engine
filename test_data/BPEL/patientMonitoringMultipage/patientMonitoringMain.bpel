@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<process targetNamespace="User://patientMonitoringMain" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:tns="User://patientMonitoringMain"
+         xmlns:patientMonitoringSetTime="User://patientMonitoringSetTime" xmlns:patientMonitoringPatient="User://patientMonitoringPatient" xmlns:patientMonitoringEnd="User://patientMonitoringEnd"
+         xmlns:PatientMonitor_FactorMonitor="http://140.112.90.144:7122/PatientMonitorGradle/PatientMonitor/FactorMonitor/initMethod-long">
+    <variables>
+        <variable messageType="tns:start" name="start"/>
+        <variable messageType="PatientMonitor_FactorMonitor:initMethodResponse" name="factorMonitor"/>
+        <variable messageType="tns:end" name="end"/>
+        <variable messageType="patientMonitoringEnd:reply" name="reply"/>
+    </variables>
+    <sequence>
+        <receive createInstance="yes" name="receive-input" operation="setTimePage" portType="tns:navigationPort" partnerLink="main" variable="start"/>
+        <invoke partnerLink="setTime" portType="patientMonitoringSetTime:interactionPort" operation="start" outputVariable="factorMonitor" virtualClientID="1" concreteClientAccess="yes"/>
+        <while>
+            <condition>not(end/end/text())</condition>
+            <pick>
+                <onMessage operation="patientPage" portType="tns:navigationPort" partnerLink="main" variable="start">
+                    <invoke partnerLink="patient" portType="patientMonitoringPatient:interactionPort" operation="start" inputVariable="factorMonitor" virtualClientID="2" concreteClientAccess="yes"/>
+                </onMessage>
+                <onMessage operation="endPage" portType="tns:navigationPort" partnerLink="main" variable="start">
+                    <sequence>
+                        <assign>
+                            <copy>
+                                <from>
+                                    <literal>true</literal>
+                                </from>
+                                <to variable="end" part="end"/>
+                            </copy>
+                        </assign>
+                        <invoke partnerLink="end" portType="patientMonitoringEnd:interactionPort" operation="start" inputVariable="factorMonitor" outputVariable="reply" virtualClientID="3" concreteClientAccess="yes"/>
+                    </sequence>
+                </onMessage>
+            </pick>
+        </while>
+    </sequence>
+</process>

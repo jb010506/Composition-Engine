@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<process targetNamespace="User://patientMonitoringPatient" xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" xmlns:tns="User://patientMonitoringPatient"
+         xmlns:PatientMonitor_FactorMonitor_initMethod="http://140.112.90.144:7122/PatientMonitorGradle/PatientMonitor/FactorMonitor/initMethod-long" xmlns:PatientMonitor_FactorMonitor_addPatient="http://140.112.90.144:7122/PatientMonitorGradle/PatientMonitor/FactorMonitor/addPatient-PatientMonitor_Patient"
+         xmlns:PatientMonitor_Patient_initMethod="http://140.112.90.144:7122/PatientMonitorGradle/PatientMonitor/Patient/initMethod-java_lang_String-int" xmlns:PatientMonitor_Patient_attachSensor="http://140.112.90.144:7122/PatientMonitorGradle/PatientMonitor/Patient/attachSensor-PatientMonitor_Sensor-PatientMonitor_SafeRange"
+         xmlns:PatientMonitor_PulseSensor_initMethod="http://140.112.90.144:7122/PatientMonitorGradle/PatientMonitor/PulseSensor/initMethod-java_lang_String-java_lang_String" xmlns:PatientMonitor_PulseSensorRange_initMethod="http://140.112.90.144:7122/PatientMonitorGradle/PatientMonitor/PulseSafeRange/initMethod-double-double"
+         xmlns:PatientMonitor_BloodPressureSensor_initMethod="http://140.112.90.144:7122/PatientMonitorGradle/PatientMonitor/BloodPressureSensor/initMethod-java_lang_String-java_lang_String" xmlns:PatientMonitor_BloodPressureSensorRange_initMethod="http://140.112.90.144:7122/PatientMonitorGradle/PatientMonitor/BloodPressureSafeRange/initMethod-double-double"
+         xmlns:PatientMonitor_TemperatureSensor_initMethod="http://140.112.90.144:7122/PatientMonitorGradle/PatientMonitor/TemperatureSensor/initMethod-java_lang_String-java_lang_String" xmlns:PatientMonitor_TemperatureSensorRange_initMethod="http://140.112.90.144:7122/PatientMonitorGradle/PatientMonitor/TemperatureSafeRange/initMethod-double-double">
+    <variables>
+        <variable messageType="PatientMonitor_FactorMonitor_initMethod:initMethodResponse" name="factor_monitor"/>
+        <variable messageType="PatientMonitor_Patient_initMethod:initMethodRequest" name="patient_command"/>
+        <variable messageType="PatientMonitor_Patient_initMethod:initMethodResponse" name="patient"/>
+        <variable messageType="PatientMonitor_FactorMonitor_addPatient:addPatientRequest" name="add_patient_request"/>
+        <variable messageType="PatientMonitor_FactorMonitor_addPatient:addPatientResponse" name="add_patient_response"/>
+        <variable messageType="tns:sensorCommand" name="sensor_command"/>
+        <variable messageType="PatientMonitor_PulseSensor_initMethod:initMethodRequest" name="create_pulse_sensor_request"/>
+        <variable messageType="PatientMonitor_BloodPressureSensor_initMethod:initMethodRequest" name="create_blood_pressure_sensor_request"/>
+        <variable messageType="PatientMonitor_TemperatureSensor_initMethod:initMethodRequest" name="create_temperature_sensor_request"/>
+        <variable messageType="PatientMonitor_PulseSensor_initMethod:initMethodResponse" name="pulse_sensor"/>
+        <variable messageType="PatientMonitor_BloodPressureSensor_initMethod:initMethodResponse" name="blood_pressure_sensor"/>
+        <variable messageType="PatientMonitor_TemperatureSensor_initMethod:initMethodResponse" name="temperature_sensor"/>
+        <variable messageType="PatientMonitor_PulseSensorRange_initMethod:initMethodRequest" name="create_pulse_safe_range_request"/>
+        <variable messageType="PatientMonitor_BloodPressureSensorRange_initMethod:initMethodRequest" name="create_blood_pressure_safe_range_request"/>
+        <variable messageType="PatientMonitor_TemperatureSensorRange_initMethod:initMethodRequest" name="create_temperature_safe_range_request"/>
+        <variable messageType="PatientMonitor_PulseSensorRange_initMethod:initMethodResponse" name="pulse_safe_range"/>
+        <variable messageType="PatientMonitor_BloodPressureSensorRange_initMethod:initMethodResponse" name="blood_pressure_safe_range"/>
+        <variable messageType="PatientMonitor_TemperatureSensorRange_initMethod:initMethodResponse" name="temperature_safe_range"/>
+        <variable messageType="PatientMonitor_Patient_attachSensor:attachSensorRequest" name="attach_sensor_request"/>
+        <variable messageType="PatientMonitor_Patient_attachSensor:attachSensorResponse" name="attach_sensor_response"/>
+    </variables>
+    <sequence>
+        <receive createInstance="yes" name="factor_monitor" partnerLink="patient" portType="tns:interactionPort" operation="start" variable="factor_monitor"/>
+        <assign validate="yes">
+            <copy>
+                <from variable="factor_monitor" part="serviceResult"/>
+                <to variable="add_patient_request" part="self"/>
+            </copy>
+        </assign>
+        <while>
+            <condition>true()</condition>
+            <pick>
+                <onMessage partnerLink="patient" operation="patient" portType="tns:interactionPort" variable="patient_command">
+                    <sequence>
+                        <invoke partnerLink="Patient" portType="PatientMonitor_Patient_initMethod:initMethodPort" operation="initMethod" inputVariable="patient_command" outputVariable="patient"/>
+                        <assign validate="yes">
+                            <copy>
+                                <from variable="patient" part="serviceResult"/>
+                                <to variable="add_patient_request" part="patient"/>
+                            </copy>
+                            <copy>
+                                <from variable="patient" part="serviceResult"/>
+                                <to variable="attach_sensor_request" part="self"/>
+                            </copy>
+                        </assign>
+                        <invoke partnerLink="FactorMonitor" portType="PatientMonitor_FactorMonitor_addPatient:addPatientPort" operation="addPatient" inputVariable="add_patient_request" outputVariable="add_patient_response"/>
+                    </sequence>
+                </onMessage>
+                <onMessage partnerLink="patient" portType="tns:interactionPort" operation="PulseSensor" variable="sensor_command">
+                    <sequence>
+                        <assign validate="yes">
+                            <copy>
+                                <from variable="sensor_command" part="device_name"/>
+                                <to variable="create_pulse_sensor_request" part="sensorName"/>
+                            </copy>
+                            <copy>
+                                <from variable="sensor_command" part="factor_dataset_file"/>
+                                <to variable="create_pulse_sensor_request" part="fileName"/>
+                            </copy>
+                        </assign>
+                        <invoke partnerLink="PulseSensor" portType="PatientMonitor_PulseSensor_initMethod:initMethodPort" operation="initMethod" inputVariable="create_pulse_sensor_request" outputVariable="pulse_sensor"/>
+                        <assign validate="yes">
+                            <copy>
+                                <from variable="sensor_command" part="safe_range_lower_bound"/>
+                                <to variable="create_pulse_safe_range_request" part="lowerBound"/>
+                            </copy>
+                            <copy>
+                                <from variable="sensor_command" part="safe_range_upper_bound"/>
+                                <to variable="create_pulse_safe_range_request" part="upperBound"/>
+                            </copy>
+                        </assign>
+                        <invoke partnerLink="SafeRange" portType="PatientMonitor_PulseSensorRange_initMethod:initMethodPort" operation="initMethod" inputVariable="create_pulse_safe_range_request" outputVariable="pulse_safe_range"/>
+                        <assign validate="yes">
+                            <copy>
+                                <from variable="pulse_sensor" part="serviceResult"/>
+                                <to variable="attach_sensor_request" part="sensor"/>
+                            </copy>
+                            <copy>
+                                <from variable="pulse_safe_range" part="serviceResult"/>
+                                <to variable="attach_sensor_request" part="safeRange"/>
+                            </copy>
+                        </assign>
+                        <invoke partnerLink="Patient" portType="PatientMonitor_Patient_attachSensor:attachSensorPort" operation="attachSensor" inputVariable="attach_sensor_request" outputVariable="attach_sensor_response"/>
+                    </sequence>
+                </onMessage>
+                <onMessage partnerLink="patient" portType="tns:interactionPort" operation="BloodPressureSensor" variable="sensor_command">
+                    <sequence>
+                        <assign validate="yes">
+                            <copy>
+                                <from variable="sensor_command" part="device_name"/>
+                                <to variable="create_blood_pressure_sensor_request" part="sensorName"/>
+                            </copy>
+                            <copy>
+                                <from variable="sensor_command" part="factor_dataset_file"/>
+                                <to variable="create_blood_pressure_sensor_request" part="fileName"/>
+                            </copy>
+                        </assign>
+                        <invoke partnerLink="BloodPressureSensor" portType="PatientMonitor_BloodPressureSensor_initMethod:initMethodPort" operation="initMethod" inputVariable="create_blood_pressure_sensor_request" outputVariable="blood_pressure_sensor"/>
+                        <assign validate="yes">
+                            <copy>
+                                <from variable="sensor_command" part="safe_range_lower_bound"/>
+                                <to variable="create_blood_pressure_safe_range_request" part="lowerBound"/>
+                            </copy>
+                            <copy>
+                                <from variable="sensor_command" part="safe_range_upper_bound"/>
+                                <to variable="create_blood_pressure_safe_range_request" part="upperBound"/>
+                            </copy>
+                        </assign>
+                        <invoke partnerLink="SafeRange" portType="PatientMonitor_BloodPressureSensorRange_initMethod:initMethodPort" operation="initMethod" inputVariable="create_blood_pressure_safe_range_request" outputVariable="blood_pressure_safe_range"/>
+                        <assign validate="yes">
+                            <copy>
+                                <from variable="blood_pressure_sensor" part="serviceResult"/>
+                                <to variable="attach_sensor_request" part="sensor"/>
+                            </copy>
+                            <copy>
+                                <from variable="blood_pressure_safe_range" part="serviceResult"/>
+                                <to variable="attach_sensor_request" part="safeRange"/>
+                            </copy>
+                        </assign>
+                        <invoke partnerLink="Patient" portType="PatientMonitor_Patient_attachSensor:attachSensorPort" operation="attachSensor" inputVariable="attach_sensor_request" outputVariable="attach_sensor_response"/>
+                    </sequence>
+                </onMessage>
+                <onMessage partnerLink="patient" portType="tns:interactionPort" operation="TemperatureSensor" variable="sensor_command">
+                    <sequence>
+                        <assign validate="yes">
+                            <copy>
+                                <from variable="sensor_command" part="device_name"/>
+                                <to variable="create_temperature_sensor_request" part="sensorName"/>
+                            </copy>
+                            <copy>
+                                <from variable="sensor_command" part="factor_dataset_file"/>
+                                <to variable="create_temperature_sensor_request" part="fileName"/>
+                            </copy>
+                        </assign>
+                        <invoke partnerLink="TemperatureSensor" portType="PatientMonitor_TemperatureSensor_initMethod:initMethodPort" operation="initMethod" inputVariable="create_temperature_sensor_request" outputVariable="temperature_sensor"/>
+                        <assign validate="yes">
+                            <copy>
+                                <from variable="sensor_command" part="safe_range_lower_bound"/>
+                                <to variable="create_temperature_safe_range_request" part="lowerBound"/>
+                            </copy>
+                            <copy>
+                                <from variable="sensor_command" part="safe_range_upper_bound"/>
+                                <to variable="create_temperature_safe_range_request" part="upperBound"/>
+                            </copy>
+                        </assign>
+                        <invoke partnerLink="SafeRange" portType="PatientMonitor_TemperatureSensorRange_initMethod:initMethodPort" operation="initMethod" inputVariable="create_temperature_safe_range_request" outputVariable="temperature_safe_range"/>
+                        <assign validate="yes">
+                            <copy>
+                                <from variable="temperature_sensor" part="serviceResult"/>
+                                <to variable="attach_sensor_request" part="sensor"/>
+                            </copy>
+                            <copy>
+                                <from variable="temperature_safe_range" part="serviceResult"/>
+                                <to variable="attach_sensor_request" part="safeRange"/>
+                            </copy>
+                        </assign>
+                        <invoke partnerLink="Patient" portType="PatientMonitor_Patient_attachSensor:attachSensorPort" operation="attachSensor" inputVariable="attach_sensor_request" outputVariable="attach_sensor_response"/>
+                    </sequence>
+                </onMessage>
+            </pick>
+        </while>
+    </sequence>
+</process>

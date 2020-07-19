@@ -1,0 +1,622 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<process
+	xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+	xmlns:ArrayList.add="http://140.112.90.144:7122/java/util/ArrayList/add-java_util_ArrayList-java_lang_Object"
+	xmlns:ArrayList.initMethod="http://140.112.90.144:7122/java/util/ArrayList/initMethod"
+	xmlns:ArrayList.size="http://140.112.90.144:7122/java/util/ArrayList/size-java_util_ArrayList"
+	xmlns:Assignment.initMethod="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Assignment/initMethod-java_lang_String-peer_review_system_Student"
+	xmlns:Assignment.review="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Assignment/review"
+	xmlns:Instructor.addAssignment="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/addAssignment-peer_review_system_Assignment"
+	xmlns:Instructor.averageCriterion="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/averageCriterion-java_lang_String"
+	xmlns:Instructor.calculateScore="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/calculateScore-java_lang_String-java_lang_String-java_lang_String"
+	xmlns:Instructor.designRankingCriterion="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/designRankingCriterion-java_lang_String-java_lang_String"
+	xmlns:Instructor.findStrength="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/findStrength-java_lang_String-java_lang_String-java_lang_String"
+	xmlns:Instructor.findWeakness="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/findWeakness-java_lang_String-java_lang_String-java_lang_String"
+	xmlns:Instructor.getRubric="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/getRubric-java_lang_String"
+	xmlns:Instructor.initMethod="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/initMethod-peer_review_system_School"
+	xmlns:Instructor.setReviewers="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Instructor/setReviewers-peer_review_system_Assignment-java_util_List-java_util_List"
+	xmlns:Level.initMethod="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Level/initMethod-java_lang_String-double"
+	xmlns:LevelStrategy.initMethod="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/LevelStrategy/initMethod-java_util_List"
+	xmlns:LinkedHashMap.get="http://140.112.90.144:7122/java/util/LinkedHashMap/get-java_util_LinkedHashMap-java_lang_String"
+	xmlns:LinkedHashMap.initMethod="http://140.112.90.144:7122/java/util/LinkedHashMap/initMethod"
+	xmlns:LinkedHashMap.put="http://140.112.90.144:7122/java/util/LinkedHashMap/put-java_util_LinkedHashMap-java_lang_Object-java_lang_Object"
+	xmlns:Rubric.toString="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Rubric/toString"
+	xmlns:School.initMethod="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/School/initMethod"
+	xmlns:School.setLevelStrategy="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/School/setLevelStrategy-peer_review_system_LevelStrategy"
+	xmlns:Student.initMethod="http://140.112.90.144:7122/PeerReviewSystemGradle/peer_review_system/Student/initMethod-java_lang_String"
+	xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+	xmlns:tns="./testdata/peerReview.bpel" targetNamespace="./testdata/peerReview.bpel">
+	<variables>
+		<variable messageType="tns:printRubricRequest" name="Main.printRubricRequest.0"/>
+		<variable messageType="Rubric.toString:toStringRequest" name="Rubric.toStringRequest.0"/>
+		<variable messageType="ArrayList.initMethod:initMethodResponse" name="scoreFiles"/>
+		<variable messageType="Instructor.getRubric:getRubricResponse" name="rubric"/>
+		<variable messageType="tns:averageCriterionRequest" name="Main.averageCriterionRequest.0"/>
+		<variable messageType="LinkedHashMap.get:getRequest" name="LinkedHashMap.getRequest.3"/>
+		<variable messageType="LinkedHashMap.get:getRequest" name="LinkedHashMap.getRequest.2"/>
+		<variable messageType="tns:start" name="Main.startRequest.0"/>
+		<variable messageType="LinkedHashMap.get:getRequest" name="LinkedHashMap.getRequest.1"/>
+		<variable messageType="Assignment.review:reviewRequest" name="Assignment.reviewRequest.0"/>
+		<variable messageType="LinkedHashMap.get:getRequest" name="LinkedHashMap.getRequest.0"/>
+		<variable messageType="School.setLevelStrategy:setLevelStrategyRequest" name="School.setLevelStrategyRequest.0"/>
+		<variable messageType="School.initMethod:initMethodResponse" name="school"/>
+		<variable messageType="Instructor.initMethod:initMethodRequest" name="Instructor.initMethodRequest.0"/>
+		<variable messageType="LevelStrategy.initMethod:initMethodResponse" name="levelStrategy"/>
+		<variable messageType="ArrayList.add:addRequest" name="ArrayList.addRequest.0"/>
+		<variable messageType="Instructor.designRankingCriterion:designRankingCriterionRequest" name="Instructor.designRankingCriterionRequest.0"/>
+		<variable messageType="ArrayList.add:addRequest" name="ArrayList.addRequest.8"/>
+		<variable messageType="ArrayList.add:addRequest" name="ArrayList.addRequest.7"/>
+		<variable messageType="ArrayList.add:addRequest" name="ArrayList.addRequest.6"/>
+		<variable messageType="ArrayList.add:addRequest" name="ArrayList.addRequest.5"/>
+		<variable messageType="ArrayList.add:addRequest" name="ArrayList.addRequest.4"/>
+		<variable messageType="ArrayList.add:addRequest" name="ArrayList.addRequest.3"/>
+		<variable messageType="ArrayList.add:addRequest" name="ArrayList.addRequest.2"/>
+		<variable messageType="Instructor.findWeakness:findWeaknessRequest" name="Instructor.findWeaknessRequest.0"/>
+		<variable messageType="ArrayList.add:addRequest" name="ArrayList.addRequest.1"/>
+		<variable messageType="Instructor.initMethod:initMethodResponse" name="instructor"/>
+		<variable messageType="Level.initMethod:initMethodResponse" name="level1"/>
+		<variable messageType="Level.initMethod:initMethodResponse" name="level3"/>
+		<variable messageType="Level.initMethod:initMethodResponse" name="level2"/>
+		<variable messageType="Level.initMethod:initMethodRequest" name="Level.initMethodRequest.1"/>
+		<variable messageType="tns:findWeaknessRequest" name="Main.findWeaknessRequest.0"/>
+		<variable messageType="Level.initMethod:initMethodRequest" name="Level.initMethodRequest.0"/>
+		<variable messageType="Student.initMethod:initMethodResponse" name="student"/>
+		<variable messageType="Instructor.getRubric:getRubricRequest" name="Instructor.getRubricRequest.0"/>
+		<variable messageType="Rubric.toString:toStringResponse" name="rubricString"/>
+		<variable messageType="LinkedHashMap.initMethod:initMethodResponse" name="students"/>
+		<variable messageType="Student.initMethod:initMethodRequest" name="Student.initMethodRequest.0"/>
+		<variable messageType="LevelStrategy.initMethod:initMethodRequest" name="LevelStrategy.initMethodRequest.0"/>
+		<variable messageType="Level.initMethod:initMethodRequest" name="Level.initMethodRequest.2"/>
+		<variable messageType="Assignment.initMethod:initMethodRequest" name="Assignment.initMethodRequest.0"/>
+		<variable messageType="tns:schoolStrategyRequest" name="Main.schoolStrategyRequest.0"/>
+		<variable messageType="Instructor.averageCriterion:averageCriterionResponse" name="result"/>
+		<variable messageType="tns:studentRequest" name="Main.studentRequest.0"/>
+		<variable messageType="tns:outputPort.output" name="Main.reply"/>
+		<variable messageType="Instructor.addAssignment:addAssignmentRequest" name="Instructor.addAssignmentRequest.0"/>
+		<variable messageType="tns:findStrengthRequest" name="Main.findStrengthRequest.0"/>
+		<variable messageType="tns:assignmentRequest" name="Main.assignmentRequest.0"/>
+		<variable messageType="LinkedHashMap.put:putRequest" name="LinkedHashMap.putRequest.0"/>
+		<variable messageType="Assignment.initMethod:initMethodResponse" name="assignment"/>
+		<variable messageType="tns:designCriterionRequest" name="Main.designCriterionRequest.0"/>
+		<variable messageType="LinkedHashMap.get:getResponse" name="reviewer"/>
+		<variable messageType="Instructor.averageCriterion:averageCriterionRequest" name="Instructor.averageCriterionRequest.0"/>
+		<variable messageType="ArrayList.initMethod:initMethodResponse" name="reviewers"/>
+		<variable messageType="tns:calculateScoreRequest" name="Main.calculateScoreRequest.0"/>
+		<variable messageType="Instructor.setReviewers:setReviewersRequest" name="Instructor.setReviewersRequest.0"/>
+		<variable messageType="Instructor.findStrength:findStrengthRequest" name="Instructor.findStrengthRequest.0"/>
+		<variable messageType="ArrayList.initMethod:initMethodResponse" name="levels"/>
+		<variable messageType="Instructor.calculateScore:calculateScoreRequest" name="Instructor.calculateScoreRequest.0"/>
+	</variables>
+	<sequence>
+		<receive createInstance="yes" operation="start" partnerLink="Main" portType="tns:startInteractionPort" variable="Main.startRequest.0"/>
+		<invoke operation="initMethod" outputVariable="students" partnerLink="LinkedHashMap" portType="LinkedHashMap.initMethod:initMethodPort"/>
+		<invoke operation="initMethod" outputVariable="school" partnerLink="School" portType="School.initMethod:initMethodPort"/>
+		<sequence>
+			<assign>
+				<copy>
+					<from part="serviceResult" variable="school"/>
+					<to part="school" variable="Instructor.initMethodRequest.0"/>
+				</copy>
+			</assign>
+			<invoke inputVariable="Instructor.initMethodRequest.0" operation="initMethod" outputVariable="instructor" partnerLink="Instructor" portType="Instructor.initMethod:initMethodPort"/>
+		</sequence>
+		<while>
+			<condition>true()</condition>
+			<sequence>
+				<pick>
+					<onMessage operation="student" partnerLink="Main" portType="tns:pageInteractionPort" variable="Main.studentRequest.0">
+						<sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="studentID" variable="Main.studentRequest.0"/>
+										<to part="studentID" variable="Student.initMethodRequest.0"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="Student.initMethodRequest.0" operation="initMethod" outputVariable="student" partnerLink="Student" portType="Student.initMethod:initMethodPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="students"/>
+										<to part="self" variable="LinkedHashMap.putRequest.0"/>
+									</copy>
+									<copy>
+										<from part="studentID" variable="Main.studentRequest.0"/>
+										<to part="key" variable="LinkedHashMap.putRequest.0"/>
+									</copy>
+									<copy>
+										<from part="serviceResult" variable="student"/>
+										<to part="value" variable="LinkedHashMap.putRequest.0"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="LinkedHashMap.putRequest.0" operation="put" partnerLink="LinkedHashMap" portType="LinkedHashMap.put:putPort"/>
+							</sequence>
+						</sequence>
+					</onMessage>
+					<onMessage operation="schoolStrategy" partnerLink="Main" portType="tns:pageInteractionPort" variable="Main.schoolStrategyRequest.0">
+						<sequence>
+							<invoke operation="initMethod" outputVariable="levels" partnerLink="ArrayList" portType="ArrayList.initMethod:initMethodPort"/>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="level1" variable="Main.schoolStrategyRequest.0"/>
+										<to part="linguistic" variable="Level.initMethodRequest.0"/>
+									</copy>
+									<copy>
+										<from part="score1" variable="Main.schoolStrategyRequest.0"/>
+										<to part="numerical" variable="Level.initMethodRequest.0"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="Level.initMethodRequest.0" operation="initMethod" outputVariable="level1" partnerLink="Level" portType="Level.initMethod:initMethodPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="levels"/>
+										<to part="self" variable="ArrayList.addRequest.0"/>
+									</copy>
+									<copy>
+										<from part="serviceResult" variable="level1"/>
+										<to part="element" variable="ArrayList.addRequest.0"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="ArrayList.addRequest.0" operation="add" partnerLink="ArrayList" portType="ArrayList.add:addPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="level2" variable="Main.schoolStrategyRequest.0"/>
+										<to part="linguistic" variable="Level.initMethodRequest.1"/>
+									</copy>
+									<copy>
+										<from part="score2" variable="Main.schoolStrategyRequest.0"/>
+										<to part="numerical" variable="Level.initMethodRequest.1"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="Level.initMethodRequest.1" operation="initMethod" outputVariable="level2" partnerLink="Level" portType="Level.initMethod:initMethodPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="levels"/>
+										<to part="self" variable="ArrayList.addRequest.1"/>
+									</copy>
+									<copy>
+										<from part="serviceResult" variable="level2"/>
+										<to part="element" variable="ArrayList.addRequest.1"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="ArrayList.addRequest.1" operation="add" partnerLink="ArrayList" portType="ArrayList.add:addPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="level3" variable="Main.schoolStrategyRequest.0"/>
+										<to part="linguistic" variable="Level.initMethodRequest.2"/>
+									</copy>
+									<copy>
+										<from part="score3" variable="Main.schoolStrategyRequest.0"/>
+										<to part="numerical" variable="Level.initMethodRequest.2"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="Level.initMethodRequest.2" operation="initMethod" outputVariable="level3" partnerLink="Level" portType="Level.initMethod:initMethodPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="levels"/>
+										<to part="self" variable="ArrayList.addRequest.2"/>
+									</copy>
+									<copy>
+										<from part="serviceResult" variable="level3"/>
+										<to part="element" variable="ArrayList.addRequest.2"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="ArrayList.addRequest.2" operation="add" partnerLink="ArrayList" portType="ArrayList.add:addPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="levels"/>
+										<to part="levels" variable="LevelStrategy.initMethodRequest.0"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="LevelStrategy.initMethodRequest.0" operation="initMethod" outputVariable="levelStrategy" partnerLink="LevelStrategy" portType="LevelStrategy.initMethod:initMethodPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="school"/>
+										<to part="self" variable="School.setLevelStrategyRequest.0"/>
+									</copy>
+									<copy>
+										<from part="serviceResult" variable="levelStrategy"/>
+										<to part="levelStrategy" variable="School.setLevelStrategyRequest.0"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="School.setLevelStrategyRequest.0" operation="setLevelStrategy" partnerLink="School" portType="School.setLevelStrategy:setLevelStrategyPort"/>
+							</sequence>
+						</sequence>
+					</onMessage>
+					<onMessage operation="designCriterion" partnerLink="Main" portType="tns:pageInteractionPort" variable="Main.designCriterionRequest.0">
+						<sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="instructor"/>
+										<to part="self" variable="Instructor.designRankingCriterionRequest.0"/>
+									</copy>
+									<copy>
+										<from part="assignmentID" variable="Main.designCriterionRequest.0"/>
+										<to part="assignmentID" variable="Instructor.designRankingCriterionRequest.0"/>
+									</copy>
+									<copy>
+										<from part="rubricFile" variable="Main.designCriterionRequest.0"/>
+										<to part="rubricFile" variable="Instructor.designRankingCriterionRequest.0"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="Instructor.designRankingCriterionRequest.0" operation="designRankingCriterion" partnerLink="Instructor" portType="Instructor.designRankingCriterion:designRankingCriterionPort"/>
+							</sequence>
+						</sequence>
+					</onMessage>
+					<onMessage operation="assignment" partnerLink="Main" portType="tns:pageInteractionPort" variable="Main.assignmentRequest.0">
+						<sequence>
+							<invoke operation="initMethod" outputVariable="reviewers" partnerLink="ArrayList" portType="ArrayList.initMethod:initMethodPort"/>
+							<invoke operation="initMethod" outputVariable="scoreFiles" partnerLink="ArrayList" portType="ArrayList.initMethod:initMethodPort"/>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="students"/>
+										<to part="self" variable="LinkedHashMap.getRequest.0"/>
+									</copy>
+									<copy>
+										<from part="reviewer1" variable="Main.assignmentRequest.0"/>
+										<to part="key" variable="LinkedHashMap.getRequest.0"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="LinkedHashMap.getRequest.0" operation="get" outputVariable="reviewer" partnerLink="LinkedHashMap" portType="LinkedHashMap.get:getPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="reviewers"/>
+										<to part="self" variable="ArrayList.addRequest.3"/>
+									</copy>
+									<copy>
+										<from part="serviceResult" variable="reviewer"/>
+										<to part="element" variable="ArrayList.addRequest.3"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="ArrayList.addRequest.3" operation="add" partnerLink="ArrayList" portType="ArrayList.add:addPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="scoreFiles"/>
+										<to part="self" variable="ArrayList.addRequest.4"/>
+									</copy>
+									<copy>
+										<from part="sample1" variable="Main.assignmentRequest.0"/>
+										<to part="element" variable="ArrayList.addRequest.4"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="ArrayList.addRequest.4" operation="add" partnerLink="ArrayList" portType="ArrayList.add:addPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="students"/>
+										<to part="self" variable="LinkedHashMap.getRequest.1"/>
+									</copy>
+									<copy>
+										<from part="reviewer2" variable="Main.assignmentRequest.0"/>
+										<to part="key" variable="LinkedHashMap.getRequest.1"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="LinkedHashMap.getRequest.1" operation="get" outputVariable="reviewer" partnerLink="LinkedHashMap" portType="LinkedHashMap.get:getPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="reviewers"/>
+										<to part="self" variable="ArrayList.addRequest.5"/>
+									</copy>
+									<copy>
+										<from part="serviceResult" variable="reviewer"/>
+										<to part="element" variable="ArrayList.addRequest.5"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="ArrayList.addRequest.5" operation="add" partnerLink="ArrayList" portType="ArrayList.add:addPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="scoreFiles"/>
+										<to part="self" variable="ArrayList.addRequest.6"/>
+									</copy>
+									<copy>
+										<from part="sample2" variable="Main.assignmentRequest.0"/>
+										<to part="element" variable="ArrayList.addRequest.6"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="ArrayList.addRequest.6" operation="add" partnerLink="ArrayList" portType="ArrayList.add:addPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="students"/>
+										<to part="self" variable="LinkedHashMap.getRequest.2"/>
+									</copy>
+									<copy>
+										<from part="reviewer3" variable="Main.assignmentRequest.0"/>
+										<to part="key" variable="LinkedHashMap.getRequest.2"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="LinkedHashMap.getRequest.2" operation="get" outputVariable="reviewer" partnerLink="LinkedHashMap" portType="LinkedHashMap.get:getPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="reviewers"/>
+										<to part="self" variable="ArrayList.addRequest.7"/>
+									</copy>
+									<copy>
+										<from part="serviceResult" variable="reviewer"/>
+										<to part="element" variable="ArrayList.addRequest.7"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="ArrayList.addRequest.7" operation="add" partnerLink="ArrayList" portType="ArrayList.add:addPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="scoreFiles"/>
+										<to part="self" variable="ArrayList.addRequest.8"/>
+									</copy>
+									<copy>
+										<from part="sample3" variable="Main.assignmentRequest.0"/>
+										<to part="element" variable="ArrayList.addRequest.8"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="ArrayList.addRequest.8" operation="add" partnerLink="ArrayList" portType="ArrayList.add:addPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="students"/>
+										<to part="self" variable="LinkedHashMap.getRequest.3"/>
+									</copy>
+									<copy>
+										<from part="studentID" variable="Main.assignmentRequest.0"/>
+										<to part="key" variable="LinkedHashMap.getRequest.3"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="LinkedHashMap.getRequest.3" operation="get" outputVariable="student" partnerLink="LinkedHashMap" portType="LinkedHashMap.get:getPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="assignmentID" variable="Main.assignmentRequest.0"/>
+										<to part="assignmentID" variable="Assignment.initMethodRequest.0"/>
+									</copy>
+									<copy>
+										<from part="serviceResult" variable="student"/>
+										<to part="student" variable="Assignment.initMethodRequest.0"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="Assignment.initMethodRequest.0" operation="initMethod" outputVariable="assignment" partnerLink="Assignment" portType="Assignment.initMethod:initMethodPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="instructor"/>
+										<to part="self" variable="Instructor.addAssignmentRequest.0"/>
+									</copy>
+									<copy>
+										<from part="serviceResult" variable="assignment"/>
+										<to part="assignment" variable="Instructor.addAssignmentRequest.0"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="Instructor.addAssignmentRequest.0" operation="addAssignment" partnerLink="Instructor" portType="Instructor.addAssignment:addAssignmentPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="instructor"/>
+										<to part="self" variable="Instructor.setReviewersRequest.0"/>
+									</copy>
+									<copy>
+										<from part="serviceResult" variable="assignment"/>
+										<to part="assignment" variable="Instructor.setReviewersRequest.0"/>
+									</copy>
+									<copy>
+										<from part="serviceResult" variable="reviewers"/>
+										<to part="reviewers" variable="Instructor.setReviewersRequest.0"/>
+									</copy>
+									<copy>
+										<from part="serviceResult" variable="scoreFiles"/>
+										<to part="fakeScoresFile" variable="Instructor.setReviewersRequest.0"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="Instructor.setReviewersRequest.0" operation="setReviewers" partnerLink="Instructor" portType="Instructor.setReviewers:setReviewersPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="assignment"/>
+										<to part="self" variable="Assignment.reviewRequest.0"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="Assignment.reviewRequest.0" operation="review" partnerLink="Assignment" portType="Assignment.review:reviewPort"/>
+							</sequence>
+						</sequence>
+					</onMessage>
+					<onMessage operation="printRubric" partnerLink="Main" portType="tns:pageInteractionPort" variable="Main.printRubricRequest.0">
+						<sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="instructor"/>
+										<to part="self" variable="Instructor.getRubricRequest.0"/>
+									</copy>
+									<copy>
+										<from part="assignmentID" variable="Main.printRubricRequest.0"/>
+										<to part="assignmentID" variable="Instructor.getRubricRequest.0"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="Instructor.getRubricRequest.0" operation="getRubric" outputVariable="rubric" partnerLink="Instructor" portType="Instructor.getRubric:getRubricPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="rubric"/>
+										<to part="self" variable="Rubric.toStringRequest.0"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="Rubric.toStringRequest.0" operation="toString" outputVariable="rubricString" partnerLink="Rubric" portType="Rubric.toString:toStringPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="rubricString"/>
+										<to part="output" variable="Main.reply"/>
+									</copy>
+								</assign>
+								<reply operation="output" partnerLink="Client" portType="tns:outputPort" variable="Main.reply"/>
+							</sequence>
+						</sequence>
+					</onMessage>
+					<onMessage operation="averageCriterion" partnerLink="Main" portType="tns:pageInteractionPort" variable="Main.averageCriterionRequest.0">
+						<sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="instructor"/>
+										<to part="self" variable="Instructor.averageCriterionRequest.0"/>
+									</copy>
+									<copy>
+										<from part="assignmentID" variable="Main.averageCriterionRequest.0"/>
+										<to part="assignmentID" variable="Instructor.averageCriterionRequest.0"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="Instructor.averageCriterionRequest.0" operation="averageCriterion" outputVariable="result" partnerLink="Instructor" portType="Instructor.averageCriterion:averageCriterionPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="result"/>
+										<to part="output" variable="Main.reply"/>
+									</copy>
+								</assign>
+								<reply operation="output" partnerLink="Client" portType="tns:outputPort" variable="Main.reply"/>
+							</sequence>
+						</sequence>
+					</onMessage>
+					<onMessage operation="calculateScore" partnerLink="Main" portType="tns:pageInteractionPort" variable="Main.calculateScoreRequest.0">
+						<sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="instructor"/>
+										<to part="self" variable="Instructor.calculateScoreRequest.0"/>
+									</copy>
+									<copy>
+										<from part="assignmentID" variable="Main.calculateScoreRequest.0"/>
+										<to part="assignmentID" variable="Instructor.calculateScoreRequest.0"/>
+									</copy>
+									<copy>
+										<from part="studentID" variable="Main.calculateScoreRequest.0"/>
+										<to part="studentID" variable="Instructor.calculateScoreRequest.0"/>
+									</copy>
+									<copy>
+										<from part="rankingStrategy" variable="Main.calculateScoreRequest.0"/>
+										<to part="rankingStrategy" variable="Instructor.calculateScoreRequest.0"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="Instructor.calculateScoreRequest.0" operation="calculateScore" outputVariable="result" partnerLink="Instructor" portType="Instructor.calculateScore:calculateScorePort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="result"/>
+										<to part="output" variable="Main.reply"/>
+									</copy>
+								</assign>
+								<reply operation="output" partnerLink="Client" portType="tns:outputPort" variable="Main.reply"/>
+							</sequence>
+						</sequence>
+					</onMessage>
+					<onMessage operation="findStrength" partnerLink="Main" portType="tns:pageInteractionPort" variable="Main.findStrengthRequest.0">
+						<sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="instructor"/>
+										<to part="self" variable="Instructor.findStrengthRequest.0"/>
+									</copy>
+									<copy>
+										<from part="assignmentID" variable="Main.findStrengthRequest.0"/>
+										<to part="assignmentID" variable="Instructor.findStrengthRequest.0"/>
+									</copy>
+									<copy>
+										<from part="studentID" variable="Main.findStrengthRequest.0"/>
+										<to part="studentID" variable="Instructor.findStrengthRequest.0"/>
+									</copy>
+									<copy>
+										<from part="rankingStrategy" variable="Main.findStrengthRequest.0"/>
+										<to part="rankingStrategy" variable="Instructor.findStrengthRequest.0"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="Instructor.findStrengthRequest.0" operation="findStrength" outputVariable="result" partnerLink="Instructor" portType="Instructor.findStrength:findStrengthPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="result"/>
+										<to part="output" variable="Main.reply"/>
+									</copy>
+								</assign>
+								<reply operation="output" partnerLink="Client" portType="tns:outputPort" variable="Main.reply"/>
+							</sequence>
+						</sequence>
+					</onMessage>
+					<onMessage operation="findWeakness" partnerLink="Main" portType="tns:pageInteractionPort" variable="Main.findWeaknessRequest.0">
+						<sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="instructor"/>
+										<to part="self" variable="Instructor.findWeaknessRequest.0"/>
+									</copy>
+									<copy>
+										<from part="assignmentID" variable="Main.findWeaknessRequest.0"/>
+										<to part="assignmentID" variable="Instructor.findWeaknessRequest.0"/>
+									</copy>
+									<copy>
+										<from part="studentID" variable="Main.findWeaknessRequest.0"/>
+										<to part="studentID" variable="Instructor.findWeaknessRequest.0"/>
+									</copy>
+									<copy>
+										<from part="rankingStrategy" variable="Main.findWeaknessRequest.0"/>
+										<to part="rankingStrategy" variable="Instructor.findWeaknessRequest.0"/>
+									</copy>
+								</assign>
+								<invoke inputVariable="Instructor.findWeaknessRequest.0" operation="findWeakness" outputVariable="result" partnerLink="Instructor" portType="Instructor.findWeakness:findWeaknessPort"/>
+							</sequence>
+							<sequence>
+								<assign>
+									<copy>
+										<from part="serviceResult" variable="result"/>
+										<to part="output" variable="Main.reply"/>
+									</copy>
+								</assign>
+								<reply operation="output" partnerLink="Client" portType="tns:outputPort" variable="Main.reply"/>
+							</sequence>
+						</sequence>
+					</onMessage>
+				</pick>
+			</sequence>
+		</while>
+	</sequence>
+</process>

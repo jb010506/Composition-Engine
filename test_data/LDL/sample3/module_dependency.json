@@ -1,0 +1,11 @@
+[
+    "AppAsideModule",
+    "AppBreadcrumbModule.forRoot()",
+    "AppHeaderModule",
+    "AppFooterModule",
+    "AppSidebarModule",
+    "PerfectScrollbarModule",
+    "BsDropdownModule.forRoot()",
+    "TabsModule.forRoot()",
+    "ScrollPanelModule"
+]
