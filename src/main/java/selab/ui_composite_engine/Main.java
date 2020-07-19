@@ -10,8 +10,10 @@ import selab.ui_composite_engine.util.logger.LoggerUtils;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public class Main {
@@ -33,7 +35,8 @@ public class Main {
 
         JSONObject pdl = new JSONObject();
         String pageSelector = "";
-        List<String> components = new LinkedList<>();
+        Map<Object,Object> components = new HashMap<>();
+        List<String> componentSelector = new LinkedList<>();
         while(rs.next()){
            pdl = new JSONObject(rs.getString("pdl"));
            pageSelector = pdl.getString("selector");
@@ -42,11 +45,17 @@ public class Main {
 
         ResultSet rs2 = stmt.executeQuery("select * from templates");
         while(rs2.next()){
-            String id = rs2.getString("selector");
+            String selector = rs2.getString("selector");
+            String selector_capitalized = selector.substring(0,1).toUpperCase()+selector.substring(1);
             String html = rs2.getString("html");
-            components.add(html);
+            componentSelector.add(selector);
+            webAppRenderer.exportComponentTS(pageSelector,selector);
+            webAppRenderer.exportComponentHTML(pageSelector,selector,html);
+            components.put(selector_capitalized,selector);
         }
 
-        webAppRenderer.exportPageComponentHTML(pageSelector,components);
+        String page_capitalized = pageSelector.substring(0,1).toUpperCase()+pageSelector.substring(1);
+        webAppRenderer.exportPageComponentHTML(pageSelector,componentSelector);
+        webAppRenderer.exportAppModules(page_capitalized,pageSelector,components);
     }
 }

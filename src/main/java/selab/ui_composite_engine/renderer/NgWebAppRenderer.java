@@ -317,7 +317,7 @@ public class NgWebAppRenderer {
         String export_name = selector.substring(0,1).toUpperCase()+ selector.substring(1)+"Component";
         dataMap.put("selector",selector);
         dataMap.put("export_name",export_name);
-        Template template = FreeMarkerUtil.getInstance().getTemplate("page-component.ts.ftl");
+        Template template = FreeMarkerUtil.getInstance().getTemplate("component.ts.ftl");
         Writer stringWriter = new StringWriter();
         template.process(dataMap, stringWriter);
         String tsStr = stringWriter.toString().trim();
@@ -336,5 +336,39 @@ public class NgWebAppRenderer {
                 selector, selector+".component.html")), tsStr);
 
     }
+
+    public void exportComponentTS(String page,String selector) throws IOException, TemplateException {
+        Map<Object,Object> dataMap = new HashMap<>();
+        String export_name = selector.substring(0,1).toUpperCase()+ selector.substring(1)+"Component";
+        dataMap.put("selector",selector);
+        dataMap.put("export_name",export_name);
+        Template template = FreeMarkerUtil.getInstance().getTemplate("component.ts.ftl");
+        Writer stringWriter = new StringWriter();
+        template.process(dataMap, stringWriter);
+        String tsStr = stringWriter.toString().trim();
+        FileUtils.writeStringToFile(new File(PathUtil.combinePath( Configuration.WEBAPP_DIR_PATH,
+                page, selector, selector+".component.ts")), tsStr);
+    }
+
+
+
+    public void exportComponentHTML(String page,String selector,String html) throws IOException {
+        FileUtils.writeStringToFile(new File(PathUtil.combinePath( Configuration.WEBAPP_DIR_PATH,
+                page, selector,selector+".component.html")), html);
+    }
+
+    public void exportAppModules(String page_capitalized, String page, Map<Object,Object>components) throws IOException, TemplateException {
+        Map<Object,Object> dataMap = new HashMap<>();
+        dataMap.put("page_capitalized", page_capitalized);
+        dataMap.put("page", page);
+        dataMap.put("components", components);
+        Template template = FreeMarkerUtil.getInstance().getTemplate("app.module.ts.ftl");
+        Writer stringWriter = new StringWriter();
+        template.process(dataMap, stringWriter);
+        String str = stringWriter.toString().trim();
+        FileUtils.writeStringToFile(new File(PathUtil.combinePath( Configuration.WEBAPP_DIR_PATH,
+                "app.module.ts")), str);
+    }
+
 
 }
