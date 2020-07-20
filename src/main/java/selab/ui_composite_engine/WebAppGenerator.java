@@ -27,7 +27,6 @@ public class WebAppGenerator {
 
     public void generate() throws IOException, SQLException, TemplateException {
         NgWebAppRenderer webAppRenderer = new NgWebAppRenderer(Configuration.BASE_DIR_PATH, "Demo");
-        webAppRenderer.buildNgLayout(Configuration.ANGULAR_SRC_DIR_PATH, "Layout3");
         Connection connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306","root","");
         Statement stmt = connection.createStatement();
         stmt.executeUpdate("use demo");
@@ -37,9 +36,12 @@ public class WebAppGenerator {
         String pageSelector = "";
         Map<Object,Object> components = new HashMap<>();
         List<String> componentSelector = new LinkedList<>();
+        String layout;
         while(rs.next()){
             pdl = new JSONObject(rs.getString("pdl"));
             pageSelector = pdl.getString("selector");
+            layout = pdl.getString("layout");
+            webAppRenderer.buildNgLayout(Configuration.ANGULAR_SRC_DIR_PATH,layout);
             webAppRenderer.exportPageComponentTS(pageSelector);
         }
 
