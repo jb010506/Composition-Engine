@@ -1,5 +1,7 @@
 package selab.ui_composite_engine;
 
+import freemarker.template.TemplateException;
+import org.json.JSONObject;
 import selab.ui_composite_engine.component.RenderingComponent;
 import selab.ui_composite_engine.configurer.ConfigurerVisitor;
 import selab.ui_composite_engine.layout.Layout;
@@ -11,77 +13,50 @@ import selab.ui_composite_engine.parser.wsdlbpel.WsdlBpelParser;
 import selab.ui_composite_engine.renderer.NgWebAppRenderer;
 
 import java.io.IOException;
+import java.sql.*;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public class WebAppGenerator {
 
     private static final Logger LOG = Logger.getLogger(WebAppGenerator.class.getName());
 
-    private WsdlBpelParser wsdlBpelParser;
-    private NgWebAppRenderer webAppRenderer;
 
-    public WebAppGenerator(){
-        this.wsdlBpelParser = new WsdlBpelParser();
-    }
+    public void generate() throws IOException, SQLException, TemplateException {
+        NgWebAppRenderer webAppRenderer = new NgWebAppRenderer(Configuration.BASE_DIR_PATH, "Demo");
+        webAppRenderer.buildNgLayout(Configuration.ANGULAR_SRC_DIR_PATH, "Layout3");
+        Connection connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306","root","");
+        Statement stmt = connection.createStatement();
+        stmt.executeUpdate("use demo");
+        ResultSet rs = stmt.executeQuery("select * from pages");
 
-    public void generate(String bpelPath, String wsdlPath, String webAppPath) throws IOException{
-
-        // Parse Bpel's Wsdl
-        String bpelPath1 = "/Users/william/Desktop/composite_UI_engine/test_data/BPEL/testUI_beautify.bpel";
-        String wsdlPath1 = "/Users/william/Desktop/composite_UI_engine/test_data/WSDL/testUI_beautify.wsdl";
-        BpelWsdlDefinition bpelWsdlDefinition = wsdlBpelParser.parse(wsdlPath);
-        // Generate WebApp Writer
-        this.webAppRenderer = new NgWebAppRenderer( webAppPath, bpelWsdlDefinition.getName());
-
-        // Generate Composite Component
-        List<OutletFactory> outletFactoryList = NgOutletFactoryResolver.resolveFactories(bpelWsdlDefinition);
-        for(OutletFactory outletFactory: outletFactoryList){ // An outletFactory would generate one or more composite components
-            try {
-                // Create RenderingComponents and insert an CompositionOperator for each
-                List<RenderingComponent> compositeComponents = outletFactory.createComponents(bpelWsdlDefinition);
-
-                // Create ConfigurerVisitor, which would be used to collect components info and generate typescript config files
-                List<ConfigurerVisitor> configurerVisitors = outletFactory.createConfigurerVisitors();
-
-                //Page component
-                for(RenderingComponent renderingComponent: compositeComponents){
-                    renderingComponent.compose(); // Propagate info from basic components to page components
-                    LOG.info("Composed component successfully: " + renderingComponent.getName() + " within " + renderingComponent.getClass().getName());
-
-                    // Use visitors to collect info
-                    for(ConfigurerVisitor visitor: configurerVisitors){
-                        visitor.doubleDispatch(renderingComponent);
-                    }
-                }
-
-                // Call visitors to export config files
-                for(ConfigurerVisitor visitor: configurerVisitors){
-                    visitor.process();
-                }
-
-            }catch (NullPointerException e){
-                e.printStackTrace();
-                LOG.info("Composed component failed.");
-            }
+        JSONObject pdl = new JSONObject();
+        String pageSelector = "";
+        Map<Object,Object> components = new HashMap<>();
+        List<String> componentSelector = new LinkedList<>();
+        while(rs.next()){
+            pdl = new JSONObject(rs.getString("pdl"));
+            pageSelector = pdl.getString("selector");
+            webAppRenderer.exportPageComponentTS(pageSelector);
         }
 
-        // Generate Layout from Layout Template
-        try {
-            String path= "/Users/william/Desktop/composite_UI_engine/test_data/LDL/sample";
-            String path1= "/Users/william/Desktop/composite_UI_engine/test_data/AngularFrameworkSrc/src/assets";
-            for(int i=1;i<4;i++) {
-                webAppRenderer.buildLayout(path+String.valueOf(i)+"/layout", String.valueOf(i));
-                webAppRenderer.buildLayoutAssets(path1);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        ResultSet rs2 = stmt.executeQuery("select * from templates");
+        while(rs2.next()){
+            String selector = rs2.getString("selector");
+            String selector_capitalized = selector.substring(0,1).toUpperCase()+selector.substring(1);
+            String html = rs2.getString("html");
+            componentSelector.add(selector);
+            webAppRenderer.exportComponentTS(pageSelector,selector);
+            webAppRenderer.exportComponentHTML(pageSelector,selector,html);
+            components.put(selector_capitalized,selector);
         }
-        Layout layout = LayoutResolver.resolveLayout(bpelWsdlDefinition);
-        layout.render();
 
-
-        this.webAppRenderer.flush();
+        String page_capitalized = pageSelector.substring(0,1).toUpperCase()+pageSelector.substring(1);
+        webAppRenderer.exportPageComponentHTML(pageSelector,componentSelector);
+        webAppRenderer.exportAppModules(page_capitalized,pageSelector,components);
 
     }
 }

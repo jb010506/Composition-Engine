@@ -34,7 +34,6 @@ public class NgWebAppRenderer {
         this.webAppName = webAppName;
 
         this.webAppPath = PathUtil.combinePath(webAppPath, this.webAppName);
-        this.buildNgFramework();
         NgWebAppRenderer.instance = this;
 
         this.bpelPath = "";
@@ -369,6 +368,13 @@ public class NgWebAppRenderer {
         FileUtils.writeStringToFile(new File(PathUtil.combinePath( Configuration.WEBAPP_DIR_PATH,
                 "app.module.ts")), str);
     }
+
+    public void buildNgLayout(String path, String i) throws IOException {
+        File srcDir = new File(Configuration.ANGULAR_SRC_DIR_PATH+i);
+        File desDir = new File(this.webAppPath);
+        FileUtils.copyDirectory(srcDir, desDir);
+    }
+
 
 
 }

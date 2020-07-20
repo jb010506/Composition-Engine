@@ -1,0 +1,8 @@
+// If you want to override variables do it here
+@import "node_modules/@coreui/coreui-pro/scss/themes/dark/variables";
+
+// Import styles
+@import "~@coreui/coreui-pro/scss/coreui";
+
+// If you want to add something do it here
+@import "custom";
