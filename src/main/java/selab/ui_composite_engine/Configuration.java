@@ -4,6 +4,8 @@ public class Configuration {
     public static final String ANGULAR_SRC_DIR_PATH = "/Users/william/Desktop/Composition-Engine/test_data/";
     public static final String BASE_DIR_PATH = "/Users/william/Desktop/Composition-Engine/";
     public static final String WEBAPP_DIR_PATH = "/Users/william/Desktop/Composition-Engine/Demo/src/app";
+    public static final String WEBAPP_DEFAULT_LAYOUT = "/Users/william/Desktop/Composition-Engine/Demo/src/app/containers/default-layout";
+
 
     public static final String BPEL_DIR_PATH = "/Users/william/Desktop/ui_composition_engine/test_data/BPEL";
     public static final String WSDL_DIR_PATH = "/Users/william/Desktop/composite_UI_engine/test_data/WSDL";

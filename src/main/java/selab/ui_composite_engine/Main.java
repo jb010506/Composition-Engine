@@ -14,7 +14,15 @@ public class Main {
     static {
         LoggerUtils.config();
     }
-    private static WebAppGenerator generator = new WebAppGenerator();
+    private static WebAppGenerator generator;
+
+    static {
+        try {
+            generator = new WebAppGenerator();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) throws IOException, SQLException, TemplateException {
         generator.generate();

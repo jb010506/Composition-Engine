@@ -24,25 +24,35 @@ public class WebAppGenerator {
 
     private static final Logger LOG = Logger.getLogger(WebAppGenerator.class.getName());
 
+    JSONObject pdl = new JSONObject();
+    NgWebAppRenderer webAppRenderer = new NgWebAppRenderer(Configuration.BASE_DIR_PATH, "Demo");
+    Connection connection;
+    String pageSelector = "";
+
+    public WebAppGenerator() throws IOException {
+    }
 
     public void generate() throws IOException, SQLException, TemplateException {
-        NgWebAppRenderer webAppRenderer = new NgWebAppRenderer(Configuration.BASE_DIR_PATH, "Demo");
-        Connection connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306","root","");
+
+        connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306","root","");
         Statement stmt = connection.createStatement();
         stmt.executeUpdate("use demo");
         ResultSet rs = stmt.executeQuery("select * from pages");
 
-        JSONObject pdl = new JSONObject();
-        String pageSelector = "";
+
         Map<Object,Object> components = new HashMap<>();
         List<String> componentSelector = new LinkedList<>();
-        String layout;
+        String layoutName;
+        JSONObject layoutComponent;
         while(rs.next()){
             pdl = new JSONObject(rs.getString("pdl"));
             pageSelector = pdl.getString("selector");
-            layout = pdl.getString("layout");
-            webAppRenderer.buildNgLayout(Configuration.ANGULAR_SRC_DIR_PATH,layout);
+            layoutName = pdl.getJSONObject("componentList").getString("selector");
+            layoutComponent = pdl.getJSONObject("componentList");
+            webAppRenderer.buildNgLayout(Configuration.ANGULAR_SRC_DIR_PATH,layoutName);
             webAppRenderer.exportPageComponentTS(pageSelector);
+            webAppRenderer.exportLayoutTS(layoutComponent);
+            webAppRenderer.exportLayoutHTML(layoutComponent);
         }
 
         ResultSet rs2 = stmt.executeQuery("select * from templates");

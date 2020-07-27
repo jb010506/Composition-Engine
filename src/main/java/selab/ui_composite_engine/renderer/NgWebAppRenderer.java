@@ -3,6 +3,7 @@ package selab.ui_composite_engine.renderer;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.apache.commons.io.FileUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import selab.ui_composite_engine.Configuration;
 import selab.ui_composite_engine.metadata.PackageDependency;
@@ -370,11 +371,63 @@ public class NgWebAppRenderer {
     }
 
     public void buildNgLayout(String path, String i) throws IOException {
+        if(i.equals("")) i = "Layout1";
         File srcDir = new File(Configuration.ANGULAR_SRC_DIR_PATH+i);
         File desDir = new File(this.webAppPath);
         FileUtils.copyDirectory(srcDir, desDir);
     }
 
 
+    public void exportLayoutHTML(JSONObject layout) throws IOException, TemplateException {
+        JSONArray header = layout.getJSONArray("header");
+        JSONArray footer = layout.getJSONArray("footer");
+        JSONArray asidebar = layout.getJSONArray("asidebar");
+        ArrayList<JSONObject>headerItems = new ArrayList<>();
 
+        this.buildHeaderItems(header,headerItems);
+
+        Map<Object,Object> dataMap = new HashMap<>();
+        dataMap.put("headerItems",headerItems);
+        Template template = FreeMarkerUtil.getInstance().getTemplate("default-layout.component.html.ftl");
+        Writer stringWriter = new StringWriter();
+        template.process(dataMap, stringWriter);
+        String str = stringWriter.toString().trim();
+        FileUtils.writeStringToFile(new File(PathUtil.combinePath( Configuration.WEBAPP_DEFAULT_LAYOUT,
+                "default-layout.component.html")), str);
+    }
+
+    public void exportLayoutTS(JSONObject layout) throws IOException, TemplateException {
+        JSONArray sidebar = layout.getJSONArray("sidebar");
+        String sidebarItems = this.buildSidebarItems(sidebar);
+
+        Map<Object,Object> dataMap = new HashMap<>();
+        dataMap.put("items", sidebarItems);
+        Template template = FreeMarkerUtil.getInstance().getTemplate("default-layout.component.ts.ftl");
+        Writer stringWriter = new StringWriter();
+        template.process(dataMap, stringWriter);
+        String str = stringWriter.toString().trim();
+        FileUtils.writeStringToFile(new File(PathUtil.combinePath( Configuration.WEBAPP_DEFAULT_LAYOUT,
+                "default-layout.component.ts")), str);
+
+    }
+
+    public void buildHeaderItems(JSONArray header, ArrayList<JSONObject>headerItems){
+        for(int i=0;i<header.length();i++){
+            JSONObject item = new JSONObject();
+            item.put("text",header.getJSONObject(i).getString("text"));
+            item.put("href",header.getJSONObject(i).getString("href"));
+            headerItems.add(item);
+        }
+
+    }
+
+    public String buildSidebarItems(JSONArray sidebar){
+        String items = "";
+        for(int i=0;i<sidebar.length();i++){
+            items += "{ name:\"" + sidebar.getJSONObject(i).getString("text") + "\", url: \""
+                    + sidebar.getJSONObject(i).getString("href") + "\"},";
+        }
+
+        return items;
+    }
 }
