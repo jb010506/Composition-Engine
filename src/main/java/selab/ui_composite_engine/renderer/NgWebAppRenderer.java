@@ -383,11 +383,16 @@ public class NgWebAppRenderer {
         JSONArray footer = layout.getJSONArray("footer");
         JSONArray asidebar = layout.getJSONArray("asidebar");
         ArrayList<JSONObject>headerItems = new ArrayList<>();
-
+        ArrayList<JSONObject>footerItems = new ArrayList<>();
+        ArrayList<JSONObject>asidebarItems = new ArrayList<>();
         this.buildHeaderItems(header,headerItems);
+        this.buildFooterItems(footer,footerItems);
+        this.buildAsidebarItems(asidebar, asidebarItems);
 
         Map<Object,Object> dataMap = new HashMap<>();
         dataMap.put("headerItems",headerItems);
+        dataMap.put("footerItems", footerItems);
+        dataMap.put("asidebarItems", asidebarItems);
         Template template = FreeMarkerUtil.getInstance().getTemplate("default-layout.component.html.ftl");
         Writer stringWriter = new StringWriter();
         template.process(dataMap, stringWriter);
@@ -421,13 +426,30 @@ public class NgWebAppRenderer {
 
     }
 
+    public void buildFooterItems(JSONArray footer, ArrayList<JSONObject>footerItems){
+        for(int i=0;i<footer.length();i++){
+            JSONObject item = new JSONObject();
+            item.put("text",footer.getJSONObject(i).getString("text"));
+            item.put("href",footer.getJSONObject(i).getString("href"));
+            footerItems.add(item);
+        }
+    }
+
     public String buildSidebarItems(JSONArray sidebar){
         String items = "";
         for(int i=0;i<sidebar.length();i++){
             items += "{ name:\"" + sidebar.getJSONObject(i).getString("text") + "\", url: \""
                     + sidebar.getJSONObject(i).getString("href") + "\"},";
         }
-
         return items;
+    }
+
+    public void buildAsidebarItems(JSONArray asidebar, ArrayList<JSONObject>asidebarItems){
+        for(int i=0;i<asidebar.length();i++){
+            JSONObject item = new JSONObject();
+            item.put("text",asidebar.getJSONObject(i).getString("text"));
+            item.put("href",asidebar.getJSONObject(i).getString("href"));
+            asidebarItems.add(item);
+        }
     }
 }
