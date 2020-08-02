@@ -357,11 +357,11 @@ public class NgWebAppRenderer {
                 page, selector,selector+".component.html")), html);
     }
 
-    public void exportAppModules(String page_capitalized, String page, Map<Object,Object>components) throws IOException, TemplateException {
+    public void exportAppModules(Map<Object, Object> pageSelectorMap, Map<Object,Object>components, Map<Object,Object>selectorPageMap) throws IOException, TemplateException {
         Map<Object,Object> dataMap = new HashMap<>();
-        dataMap.put("page_capitalized", page_capitalized);
-        dataMap.put("page", page);
+        dataMap.put("pages", pageSelectorMap);
         dataMap.put("components", components);
+        dataMap.put("selectorPageMap", selectorPageMap);
         Template template = FreeMarkerUtil.getInstance().getTemplate("app.module.ts.ftl");
         Writer stringWriter = new StringWriter();
         template.process(dataMap, stringWriter);

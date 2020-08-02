@@ -15,12 +15,19 @@ import { AppComponent } from './app.component';
 
 // Import containers
 import { DefaultLayoutComponent } from './containers';
+<#if pages?has_content>
+    <#list pages as page_capitalized, page>
 import {${page_capitalized}Component}from "./${page}/${page}.component";
-<#if components?has_content>
-    <#list components as component_capitalized, component>
-import { ${component_capitalized}Component} from './${page}/${component}/${component}.component';
     </#list>
 </#if>
+
+<#if components?has_content>
+    <#list selectorPageMap as component, pageSelector>
+import { ${component?capitalize}Component} from './${pageSelector}/${component}/${component}.component';
+    </#list>
+</#if>
+
+
 const APP_CONTAINERS = [
 DefaultLayoutComponent
 ];
@@ -57,7 +64,12 @@ TabsModule.forRoot(),
 ChartsModule
 ],
 declarations: [
+<#if pages?has_content>
+    <#list pages as page_capitalized, page>
 ${page_capitalized}Component,
+    </#list>
+</#if>
+
 <#if components?has_content>
     <#list components as component_capitalized, component>
 ${component_capitalized}Component,

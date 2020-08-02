@@ -27,7 +27,9 @@ public class WebAppGenerator {
     JSONObject pdl = new JSONObject();
     NgWebAppRenderer webAppRenderer = new NgWebAppRenderer(Configuration.BASE_DIR_PATH, "Demo");
     Connection connection;
-    String pageSelector = "";
+    Map<Object,Object> pageSelectorMap = new HashMap<>();
+    Map<Object,Object> components = new HashMap<>();
+    Map<Object,Object> selectorPageMap = new HashMap<>();
 
     public WebAppGenerator() throws IOException {
     }
@@ -40,7 +42,7 @@ public class WebAppGenerator {
         stmt.executeUpdate("use demo");
         ResultSet rs = stmt.executeQuery("select * from pages");
 
-
+        String pageSelector = "";
         String layoutName;
         JSONObject layoutComponent;
         while(rs.next()){
@@ -58,7 +60,6 @@ public class WebAppGenerator {
             webAppRenderer.exportPageComponentTS(pageSelector);
 
 
-            Map<Object,Object> components = new HashMap<>();
             List<String> componentSelector = new LinkedList<>();
 
             ResultSet rs2 = stmt.executeQuery("select * from templates");
@@ -74,10 +75,15 @@ public class WebAppGenerator {
 
                     String page_capitalized = pageSelector.substring(0, 1).toUpperCase() + pageSelector.substring(1);
                     webAppRenderer.exportPageComponentHTML(pageSelector, componentSelector);
-                    webAppRenderer.exportAppModules(page_capitalized, pageSelector, components);
+                    pageSelectorMap.put(page_capitalized,pageSelector);
+                    selectorPageMap.put(selector, pageSelector);
                 }
             }
         }
+
+        // the last page overrides the same component within all pages
+        System.out.println(selectorPageMap);
+        webAppRenderer.exportAppModules(pageSelectorMap, components, selectorPageMap);
 
 
     }
