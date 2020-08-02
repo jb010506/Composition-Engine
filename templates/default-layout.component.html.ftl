@@ -9,7 +9,7 @@
     <ul class="nav navbar-nav d-md-down-none">
         <#list headerItems as headerItem>
             <li class="nav-item px-3">
-                <a class="nav-link" href="#">${headerItem.text}</a>
+                <a class="nav-link" href="${headerItem.href}">${headerItem.text}</a>
             </li>
         </#list>
     </ul>

@@ -34,41 +34,51 @@ public class WebAppGenerator {
 
     public void generate() throws IOException, SQLException, TemplateException {
 
+        boolean isLayoutBuild = false;
         connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306","root","");
         Statement stmt = connection.createStatement();
         stmt.executeUpdate("use demo");
         ResultSet rs = stmt.executeQuery("select * from pages");
 
 
-        Map<Object,Object> components = new HashMap<>();
-        List<String> componentSelector = new LinkedList<>();
         String layoutName;
         JSONObject layoutComponent;
         while(rs.next()){
+
             pdl = new JSONObject(rs.getString("pdl"));
+            if(isLayoutBuild==false) {
+                layoutName = pdl.getJSONObject("componentList").getString("selector");
+                layoutComponent = pdl.getJSONObject("componentList");
+                webAppRenderer.buildNgLayout(Configuration.ANGULAR_SRC_DIR_PATH, layoutName);
+                webAppRenderer.exportLayoutTS(layoutComponent);
+                webAppRenderer.exportLayoutHTML(layoutComponent);
+                isLayoutBuild = true;
+            }
             pageSelector = pdl.getString("selector");
-            layoutName = pdl.getJSONObject("componentList").getString("selector");
-            layoutComponent = pdl.getJSONObject("componentList");
-            webAppRenderer.buildNgLayout(Configuration.ANGULAR_SRC_DIR_PATH,layoutName);
             webAppRenderer.exportPageComponentTS(pageSelector);
-            webAppRenderer.exportLayoutTS(layoutComponent);
-            webAppRenderer.exportLayoutHTML(layoutComponent);
+
+
+            Map<Object,Object> components = new HashMap<>();
+            List<String> componentSelector = new LinkedList<>();
+
+            ResultSet rs2 = stmt.executeQuery("select * from templates");
+            while(rs2.next()) {
+                if (rs2.getString("page").equals(pageSelector)) {
+                    String selector = rs2.getString("selector");
+                    String selector_capitalized = selector.substring(0, 1).toUpperCase() + selector.substring(1);
+                    String html = rs2.getString("html");
+                    componentSelector.add(selector);
+                    webAppRenderer.exportComponentTS(pageSelector, selector);
+                    webAppRenderer.exportComponentHTML(pageSelector, selector, html);
+                    components.put(selector_capitalized, selector);
+
+                    String page_capitalized = pageSelector.substring(0, 1).toUpperCase() + pageSelector.substring(1);
+                    webAppRenderer.exportPageComponentHTML(pageSelector, componentSelector);
+                    webAppRenderer.exportAppModules(page_capitalized, pageSelector, components);
+                }
+            }
         }
 
-        ResultSet rs2 = stmt.executeQuery("select * from templates");
-        while(rs2.next()){
-            String selector = rs2.getString("selector");
-            String selector_capitalized = selector.substring(0,1).toUpperCase()+selector.substring(1);
-            String html = rs2.getString("html");
-            componentSelector.add(selector);
-            webAppRenderer.exportComponentTS(pageSelector,selector);
-            webAppRenderer.exportComponentHTML(pageSelector,selector,html);
-            components.put(selector_capitalized,selector);
-        }
-
-        String page_capitalized = pageSelector.substring(0,1).toUpperCase()+pageSelector.substring(1);
-        webAppRenderer.exportPageComponentHTML(pageSelector,componentSelector);
-        webAppRenderer.exportAppModules(page_capitalized,pageSelector,components);
 
     }
 }

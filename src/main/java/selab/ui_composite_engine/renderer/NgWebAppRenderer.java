@@ -331,9 +331,9 @@ public class NgWebAppRenderer {
         Template template = FreeMarkerUtil.getInstance().getTemplate("page-component.html.ftl");
         Writer stringWriter = new StringWriter();
         template.process(dataMap, stringWriter);
-        String tsStr = stringWriter.toString().trim();
+        String htmlStr = stringWriter.toString().trim();
         FileUtils.writeStringToFile(new File(PathUtil.combinePath( Configuration.WEBAPP_DIR_PATH,
-                selector, selector+".component.html")), tsStr);
+                selector, selector+".component.html")), htmlStr);
 
     }
 
@@ -371,7 +371,8 @@ public class NgWebAppRenderer {
     }
 
     public void buildNgLayout(String path, String i) throws IOException {
-        if(i.equals("")) i = "Layout1";
+        // default = prime
+        if(i.equals("")) i = "Prime";
         File srcDir = new File(Configuration.ANGULAR_SRC_DIR_PATH+i);
         File desDir = new File(this.webAppPath);
         FileUtils.copyDirectory(srcDir, desDir);
