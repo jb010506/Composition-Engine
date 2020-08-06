@@ -81,6 +81,12 @@ public class WebAppGenerator {
             }
         }
 
+        ResultSet rs3 = stmt.executeQuery("select * from navigation");
+        while(rs3.next()){
+            String ndl = rs3.getString("ndl");
+            webAppRenderer.exportNavigation(ndl);
+        }
+        connection.close();
         // the last page overrides the same component within all pages
         System.out.println(selectorPageMap);
         webAppRenderer.exportAppModules(pageSelectorMap, components, selectorPageMap);

@@ -453,4 +453,35 @@ public class NgWebAppRenderer {
             asidebarItems.add(item);
         }
     }
+
+    public void exportNavigation(String ndl) throws IOException, TemplateException {
+        JSONObject navigation = new JSONObject(ndl);
+        JSONObject routes = new JSONObject();
+        ArrayList<String> components = new ArrayList<>();
+        Map<Object,Object> dataMap = new HashMap<>();
+        getComponents(navigation,components, routes);
+        System.out.println(components);
+        System.out.println(ndl);
+        dataMap.put("ndl", navigation);
+        dataMap.put("components", components);
+
+        Template template = FreeMarkerUtil.getInstance().getTemplate("app.routing.ts.ftl");
+        Writer stringWriter = new StringWriter();
+        template.process(dataMap, stringWriter);
+        String str = stringWriter.toString().trim();
+        FileUtils.writeStringToFile(new File(PathUtil.combinePath( Configuration.WEBAPP_DIR_PATH,
+                "app.routing.ts")), str);
+    }
+
+    public void getComponents(JSONObject navigation, ArrayList<String> components, JSONObject routes){
+        if(!navigation.getString("component").toLowerCase().startsWith("default")) {
+            components.add(navigation.getString("component"));
+        }
+        if(navigation.getJSONArray("children").length()>0) {
+            JSONArray children = navigation.getJSONArray("children");
+            for(int i=0;i<children.length();i++){
+                getComponents(children.getJSONObject(i), components, routes);
+            }
+        }
+    }
 }

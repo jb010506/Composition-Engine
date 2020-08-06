@@ -34,7 +34,7 @@
     <main class="main" style="background: white">
 
         <div class="container-fluid">
-            <page1></page1>
+            <router-outlet></router-outlet>
         </div>
     </main>
     <app-aside [fixed]="true" [display]="'lg'">
