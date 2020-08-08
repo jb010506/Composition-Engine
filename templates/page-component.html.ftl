@@ -4,4 +4,5 @@
 <${component}></${component}>
     </#list>
 </#if>
+<router-outlet></router-outlet>
 
