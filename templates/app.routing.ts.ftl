@@ -45,6 +45,12 @@ import { ${component}Component } from './${component?lower_case}/${component?low
 
 
 export const routes: Routes = [
+{
+path:'',
+redirectTo:'home',
+pathMatch:"full"
+},
+
 <@test root></@test>
 ]
 @NgModule({

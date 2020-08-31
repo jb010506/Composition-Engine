@@ -2,14 +2,6 @@ package selab.ui_composite_engine;
 
 import freemarker.template.TemplateException;
 import org.json.JSONObject;
-import selab.ui_composite_engine.component.RenderingComponent;
-import selab.ui_composite_engine.configurer.ConfigurerVisitor;
-import selab.ui_composite_engine.layout.Layout;
-import selab.ui_composite_engine.layout.LayoutResolver;
-import selab.ui_composite_engine.model.BpelWsdlDefinition;
-import selab.ui_composite_engine.outlet.factory.OutletFactory;
-import selab.ui_composite_engine.outlet.factory.NgOutletFactoryResolver;
-import selab.ui_composite_engine.parser.wsdlbpel.WsdlBpelParser;
 import selab.ui_composite_engine.renderer.NgWebAppRenderer;
 
 import java.io.IOException;
@@ -51,13 +43,12 @@ public class WebAppGenerator {
             if(isLayoutBuild==false) {
                 layoutName = pdl.getJSONObject("componentList").getString("selector");
                 layoutComponent = pdl.getJSONObject("componentList");
-                webAppRenderer.buildNgLayout(Configuration.ANGULAR_SRC_DIR_PATH, layoutName);
+                webAppRenderer.buildNgLayout(layoutName);
                 webAppRenderer.exportLayoutTS(layoutComponent);
                 webAppRenderer.exportLayoutHTML(layoutComponent);
                 isLayoutBuild = true;
             }
             pageSelector = pdl.getString("selector");
-            webAppRenderer.exportPageComponentTS(pageSelector);
 
 
             List<String> componentSelector = new LinkedList<>();
@@ -74,11 +65,12 @@ public class WebAppGenerator {
                     components.put(selector_capitalized, selector);
 
                     String page_capitalized = pageSelector.substring(0, 1).toUpperCase() + pageSelector.substring(1);
-                    webAppRenderer.exportPageComponentHTML(pageSelector, componentSelector);
                     pageSelectorMap.put(page_capitalized,pageSelector);
                     selectorPageMap.put(selector, pageSelector);
                 }
             }
+            webAppRenderer.exportPageComponentTS(pageSelector);
+            webAppRenderer.exportPageComponentHTML(pageSelector, componentSelector);
         }
 
         ResultSet rs3 = stmt.executeQuery("select * from navigation");
